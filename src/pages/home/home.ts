@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController, Slides} from 'ionic-angular';
+import {GasPriceApi} from "../../app/shared/sdk/services/custom";
 declare const google: any;
 
 @Component({
@@ -16,7 +17,6 @@ export class HomePage {
   company = 1;
 
   styles: any[] = [
-
     // {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
     // {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
     // {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
@@ -24,12 +24,12 @@ export class HomePage {
 
   @ViewChild('sliders') sliders: Slides;
 
-  constructor(public navCtrl: NavController) {
+  constructor(private gasPriceApi: GasPriceApi,
+              public navCtrl: NavController) {
 
   }
 
   map:any;
-  searchBox:any;
 
   ionViewDidLoad() {
     this.sliders.lockSwipes(true);
@@ -38,35 +38,25 @@ export class HomePage {
 
   mapLoad(event) {
     console.log('Map Ready..');
-    this.map = event;
-    const input = document.getElementById('Map-Search');
-    this.searchBox = new google.maps.places.SearchBox(input);
-    this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById('view-page'));
-    this.searchBox.addListener('places_changed', () => this.goToSearchedPlace());
   }
 
-  goToSearchedPlace() {
-    const places = this.searchBox.getPlaces();
-    if (places.length === 0) {
-      return;
-    }
-    const bounds = new google.maps.LatLngBounds();
-    places.forEach((place) => {
-      if (place.geometry.viewport) {
-        bounds.union(place.geometry.viewport);
-      } else {
-        bounds.extend(place.geometry.location);
-      }
-    });
-    this.map.fitBounds(bounds);
-  }
-
+  index=1;
   changeSlide () {
     this.sliders.lockSwipes(false);
-    this.sliders.slideNext();
+    this.sliders.slideTo(this.index);
+    this.index = (this.index)? 0 : 1;
+    console.log(this.index);
     this.sliders.lockSwipes(true);
-
   }
+
+  changeFilters() {
+    console.log('changeFilters');
+    this.gasPriceApi.find({ }).subscribe((gasPrice) => {
+      console.log(gasPrice);
+    }, (e) => {
+      console.error(e);
+    });
+  }
+
 
 }

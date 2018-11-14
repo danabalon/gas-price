@@ -13,4 +13,23 @@ page-home {
   //.agm-map-container-inner .sebm-google-map-container-inner{
   //}
 
+  ion-slide.swiper-slide {
+    align-items: flex-start;
+  }
+
+  .type-view-fab {
+    margin: 15px;
+    width: 20%;
+  }
+
+  .type-view-btn {
+    width: 100%;
+    color: #8c8c8c;
+    background-color: white;
+  }
+
+  .fab {
+    border-radius: 15%;
+  }
+
 }
