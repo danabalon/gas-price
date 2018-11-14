@@ -1,5 +1,7 @@
 {
   "name": "gas-price",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

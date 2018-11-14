@@ -7,8 +7,94 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <ion-slides  #sliders [pager]="false" >
+    <ion-slide>
+
+      <!--[disableDoubleClickZoom]="true"  [clickableIcons]="false" [disableDefaultUI]="true" [scrollwheel]="false"  [zoomControl]="false" [gestureHandling]="'none'"-->
+      <!--iconUrl-->
+      <agm-map [latitude]="lat" [longitude]="lng" (mapReady)="mapLoad($event)"
+               [draggable]="false" [zoom]="15" [streetViewControl]="false"
+               [styles]="styles"
+               [maxZoom]="15" [minZoom]="10">
+        <button ion-button id="view-page" class="toggle-button controls button" (click)="changeSlide()" >
+          <ion-icon name="pin"></ion-icon> |  <ion-icon name="list"></ion-icon>
+        </button>
+        <ion-input id="Map-Search" class="controls" type="text" placeholder="Search Box"></ion-input>
+
+        <agm-marker [latitude]="-38.954933" [longitude]="-68.050773"
+                    [label]="{color: 'black', text: '$37,45', fontWeight: 'bold', fontSize: '15px'}"
+                    [title]="'YPF'"
+                    [iconUrl]="{url: 'assets/imgs/YPF.png', scaledSize: { height: 40, width: 40 }, labelOrigin: {x: 18, y: 40}}">
+
+          <agm-info-window>
+            <p>
+              YPF Sucursal 4 <br>
+              Av. Aca mismo 666
+            </p>
+            <a>link</a>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </ion-slide>
+    <ion-slide>
+
+      <ion-list class="fullwidth">
+        <ion-item-sliding>
+          <ion-item >
+            <ion-row>
+              <ion-col col-3 text-center >
+                <ion-icon ios="ios-hammer" class="icon-tool" md="md-hammer"></ion-icon>
+              </ion-col>
+              <ion-col col-6>
+                <h3>Mantenimientos</h3>
+                <p class="tool-details" style="padding-top: 7px" >
+                  Ten un seguimiento de todos <br>
+                  los mantenimientos de tu vehículo.</p>
+              </ion-col>
+            </ion-row>
+            <ion-icon name="ios-arrow-forward" item-right ></ion-icon>
+          </ion-item>
+          <ion-item-options side="left">
+            <button ion-button color="positive"></button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
+
+
+
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row >
+      <ion-col col-6>
+        <ion-item>
+          <ion-label>Empresa</ion-label>
+          <ion-select [(ngModel)]="company" interface="popover" end>
+            <ion-option value="1">YPF</ion-option>
+            <ion-option value="2">Petrobras</ion-option>
+            <ion-option value="3">Axxion</ion-option>
+            <ion-option value="4">Esso</ion-option>
+            <ion-option value="5">shell</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-6>
+        <ion-item >
+          <ion-label>Combustible</ion-label>
+          <ion-select [(ngModel)]="gasType" interface="popover">
+            <ion-option value="1">Nafta Super</ion-option>
+            <ion-option value="2">Nafta Premium</ion-option>
+            <ion-option value="3">Diesel</ion-option>
+            <ion-option value="4">Diesel Premium</ion-option>
+            <ion-option value="5">Diesel 500</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
