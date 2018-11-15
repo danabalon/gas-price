@@ -105,6 +105,8 @@ export class CertificationEvent implements CertificationEventInterface {
     return {
       name: 'CertificationEvent',
       plural: 'CertificationEvents',
+      path: 'CertificationEvents',
+      idName: 'id',
       properties: {
         "date": {
           name: 'date',
@@ -204,47 +206,74 @@ export class CertificationEvent implements CertificationEventInterface {
         client: {
           name: 'client',
           type: 'Client',
-          model: 'Client'
+          model: 'Client',
+          relationType: 'belongsTo',
+                  keyFrom: 'clientId',
+          keyTo: 'id'
         },
         pictureList: {
           name: 'pictureList',
           type: 'Picture[]',
-          model: 'Picture'
+          model: 'Picture',
+          relationType: 'embedsMany',
+                  keyFrom: '_pictureList',
+          keyTo: 'id'
         },
         policy: {
           name: 'policy',
           type: 'Policy',
-          model: 'Policy'
+          model: 'Policy',
+          relationType: 'belongsTo',
+                  keyFrom: 'policyId',
+          keyTo: 'id'
         },
         certificationData: {
           name: 'certificationData',
           type: 'any[]',
-          model: ''
+          model: '',
+          relationType: 'embedsOne',
+                  keyFrom: '_certificationData',
+          keyTo: 'id'
         },
         segViewData: {
           name: 'segViewData',
           type: 'any',
-          model: ''
+          model: '',
+          relationType: 'belongsTo',
+                  keyFrom: 'segViewDataId',
+          keyTo: 'id'
         },
         uCertifyData: {
           name: 'uCertifyData',
           type: 'any[]',
-          model: ''
+          model: '',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'certificationEventId'
         },
         insuranceCompany: {
           name: 'insuranceCompany',
           type: 'InsuranceCompany',
-          model: 'InsuranceCompany'
+          model: 'InsuranceCompany',
+          relationType: 'belongsTo',
+                  keyFrom: 'insuranceCompanyId',
+          keyTo: 'id'
         },
         procedureType: {
           name: 'procedureType',
           type: 'any',
-          model: ''
+          model: '',
+          relationType: 'belongsTo',
+                  keyFrom: 'procedureTypeId',
+          keyTo: 'id'
         },
         certificate: {
           name: 'certificate',
           type: 'any',
-          model: ''
+          model: '',
+          relationType: 'belongsTo',
+                  keyFrom: 'certificateId',
+          keyTo: 'id'
         },
       }
     }

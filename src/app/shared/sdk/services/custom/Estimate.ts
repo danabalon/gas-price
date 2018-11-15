@@ -1,15 +1,14 @@
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
 import { LoopBackFilter,  } from '../../models/BaseModels';
-import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Estimate } from '../../models/Estimate';
 import { SocketConnection } from '../../sockets/socket.connections';
 import { EstimateRequest } from '../../models/EstimateRequest';
@@ -24,18 +23,110 @@ import { Coverage } from '../../models/Coverage';
 export class EstimateApi extends BaseLoopBackApi {
 
   constructor(
-    @Inject(Http) protected http: Http,
+    @Inject(HttpClient) protected http: HttpClient,
     @Inject(SocketConnection) protected connection: SocketConnection,
     @Inject(SDKModels) protected models: SDKModels,
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
-    @Inject(JSONSearchParams) protected searchParams: JSONSearchParams,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, searchParams, errorHandler);
+    super(http,  connection,  models, auth, errorHandler);
   }
 
   /**
-   * Capta la relación belongsTo estimateRequest.
+   * Find a related item by id for additionals.
+   *
+   * @param {any} id Estimate id
+   *
+   * @param {any} fk Foreign key for additionals
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Estimate` object.)
+   * </em>
+   */
+  public findByIdAdditionals(id: any, fk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals/:fk";
+    let _routeParams: any = {
+      id: id,
+      fk: fk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Delete a related item by id for additionals.
+   *
+   * @param {any} id Estimate id
+   *
+   * @param {any} fk Foreign key for additionals
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public destroyByIdAdditionals(id: any, fk: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals/:fk";
+    let _routeParams: any = {
+      id: id,
+      fk: fk
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Update a related item by id for additionals.
+   *
+   * @param {any} id Estimate id
+   *
+   * @param {any} fk Foreign key for additionals
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Estimate` object.)
+   * </em>
+   */
+  public updateByIdAdditionals(id: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "PUT";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals/:fk";
+    let _routeParams: any = {
+      id: id,
+      fk: fk
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Fetches belongsTo relation estimateRequest.
    *
    * @param {any} id Estimate id
    *
@@ -65,11 +156,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para paymentTypes.
+   * Find a related item by id for paymentTypes.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para paymentTypes
+   * @param {any} fk Foreign key for paymentTypes
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -95,11 +186,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para paymentTypes.
+   * Delete a related item by id for paymentTypes.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para paymentTypes
+   * @param {any} fk Foreign key for paymentTypes
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -122,11 +213,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para paymentTypes.
+   * Update a related item by id for paymentTypes.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para paymentTypes
+   * @param {any} fk Foreign key for paymentTypes
    *
    * @param {object} data Request data.
    *
@@ -158,11 +249,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Añadir un elemento relacionado por id para paymentTypes.
+   * Add a related item by id for paymentTypes.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para paymentTypes
+   * @param {any} fk Foreign key for paymentTypes
    *
    * @param {object} data Request data.
    *
@@ -194,11 +285,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Eliminar la relación paymentTypes con un elemento por id.
+   * Remove the paymentTypes relation to an item by id.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para paymentTypes
+   * @param {any} fk Foreign key for paymentTypes
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -221,11 +312,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Comprobar la existencia de la relación paymentTypes con un elemento por id.
+   * Check the existence of paymentTypes relation to an item by id.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para paymentTypes
+   * @param {any} fk Foreign key for paymentTypes
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -251,7 +342,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo coverage.
+   * Fetches belongsTo relation coverage.
    *
    * @param {any} id Estimate id
    *
@@ -281,7 +372,123 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * paymentTypes consultas de Estimate.
+   * Queries additionals of Estimate.
+   *
+   * @param {any} id Estimate id
+   *
+   * @param {object} filter 
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Estimate` object.)
+   * </em>
+   */
+  public getAdditionals(id: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in additionals of this model.
+   *
+   * @param {any} id Estimate id
+   *
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Estimate` object.)
+   * </em>
+   */
+  public createAdditionals(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "POST";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {
+      data: data
+    };
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Deletes all additionals of this model.
+   *
+   * @param {any} id Estimate id
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public deleteAdditionals(id: any, customHeaders?: Function): Observable<any> {
+    let _method: string = "DELETE";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Counts additionals of Estimate.
+   *
+   * @param {any} id Estimate id
+   *
+   * @param {object} where Criteria to match model instances
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `count` – `{number}` - 
+   */
+  public countAdditionals(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/Estimates/:id/additionals/count";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Queries paymentTypes of Estimate.
    *
    * @param {any} id Estimate id
    *
@@ -311,7 +518,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en paymentTypes de este modelo.
+   * Creates a new instance in paymentTypes of this model.
    *
    * @param {any} id Estimate id
    *
@@ -344,7 +551,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los paymentTypes de este modelo.
+   * Deletes all paymentTypes of this model.
    *
    * @param {any} id Estimate id
    *
@@ -368,7 +575,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos paymentTypes de Estimate.
+   * Counts paymentTypes of Estimate.
    *
    * @param {any} id Estimate id
    *
@@ -521,7 +728,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo applicant.
+   * Fetches belongsTo relation applicant.
    *
    * @param {any} id Estimate id
    *
@@ -551,7 +758,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo client.
+   * Fetches belongsTo relation client.
    *
    * @param {any} id Estimate id
    *
@@ -581,11 +788,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para estimates.
+   * Find a related item by id for estimates.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para estimates
+   * @param {any} fk Foreign key for estimates
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -611,11 +818,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para estimates.
+   * Delete a related item by id for estimates.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para estimates
+   * @param {any} fk Foreign key for estimates
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -638,11 +845,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para estimates.
+   * Update a related item by id for estimates.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para estimates
+   * @param {any} fk Foreign key for estimates
    *
    * @param {object} data Request data.
    *
@@ -674,7 +881,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * estimates consultas de EstimateRequest.
+   * Queries estimates of EstimateRequest.
    *
    * @param {any} id Estimate id
    *
@@ -704,7 +911,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en estimates de este modelo.
+   * Creates a new instance in estimates of this model.
    *
    * @param {any} id Estimate id
    *
@@ -737,7 +944,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los estimates de este modelo.
+   * Deletes all estimates of this model.
    *
    * @param {any} id Estimate id
    *
@@ -761,7 +968,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos estimates de EstimateRequest.
+   * Counts estimates of EstimateRequest.
    *
    * @param {any} id Estimate id
    *
@@ -790,11 +997,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para risks.
+   * Find a related item by id for risks.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para risks
+   * @param {any} fk Foreign key for risks
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -820,11 +1027,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para risks.
+   * Delete a related item by id for risks.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para risks
+   * @param {any} fk Foreign key for risks
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -847,11 +1054,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para risks.
+   * Update a related item by id for risks.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para risks
+   * @param {any} fk Foreign key for risks
    *
    * @param {object} data Request data.
    *
@@ -883,11 +1090,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Añadir un elemento relacionado por id para risks.
+   * Add a related item by id for risks.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para risks
+   * @param {any} fk Foreign key for risks
    *
    * @param {object} data Request data.
    *
@@ -919,11 +1126,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Eliminar la relación risks con un elemento por id.
+   * Remove the risks relation to an item by id.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para risks
+   * @param {any} fk Foreign key for risks
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -946,11 +1153,11 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Comprobar la existencia de la relación risks con un elemento por id.
+   * Check the existence of risks relation to an item by id.
    *
    * @param {any} id Estimate id
    *
-   * @param {any} fk Clave foránea para risks
+   * @param {any} fk Foreign key for risks
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -976,193 +1183,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para extras.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {any} fk Clave foránea para extras
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Estimate` object.)
-   * </em>
-   */
-  public findByIdCoverageExtras(id: any, fk: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Suprimir un elemento relacionado por id para extras.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {any} fk Clave foránea para extras
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public destroyByIdCoverageExtras(id: any, fk: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "DELETE";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Actualizar un elemento relacionado por id para extras.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {any} fk Clave foránea para extras
-   *
-   * @param {object} data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Estimate` object.)
-   * </em>
-   */
-  public updateByIdCoverageExtras(id: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "PUT";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {
-      data: data
-    };
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Añadir un elemento relacionado por id para extras.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {any} fk Clave foránea para extras
-   *
-   * @param {object} data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Estimate` object.)
-   * </em>
-   */
-  public linkCoverageExtras(id: any, fk: any, data: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "PUT";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/rel/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {
-      data: data
-    };
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Eliminar la relación extras con un elemento por id.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {any} fk Clave foránea para extras
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public unlinkCoverageExtras(id: any, fk: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "DELETE";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/rel/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Comprobar la existencia de la relación extras con un elemento por id.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {any} fk Clave foránea para extras
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Estimate` object.)
-   * </em>
-   */
-  public existsCoverageExtras(id: any, fk: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "HEAD";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/rel/:fk";
-    let _routeParams: any = {
-      id: id,
-      fk: fk
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * risks consultas de Coverage.
+   * Queries risks of Coverage.
    *
    * @param {any} id Estimate id
    *
@@ -1192,7 +1213,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en risks de este modelo.
+   * Creates a new instance in risks of this model.
    *
    * @param {any} id Estimate id
    *
@@ -1225,7 +1246,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los risks de este modelo.
+   * Deletes all risks of this model.
    *
    * @param {any} id Estimate id
    *
@@ -1249,7 +1270,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos risks de Coverage.
+   * Counts risks of Coverage.
    *
    * @param {any} id Estimate id
    *
@@ -1278,11 +1299,13 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * extras consultas de Coverage.
+   * Creates a new instance in additionals of this model.
    *
    * @param {any} id Estimate id
    *
-   * @param {object} filter 
+   * @param {object} data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
    *
    * @returns {object[]} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -1293,42 +1316,10 @@ export class EstimateApi extends BaseLoopBackApi {
    * This usually means the response is a `Estimate` object.)
    * </em>
    */
-  public getCoverageExtras(id: any, filter: LoopBackFilter = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Crea una nueva instancia en extras de este modelo.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {object} data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Estimate` object.)
-   * </em>
-   */
-  public createCoverageExtras(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
+  public createManyAdditionals(id: any, data: any[] = [], customHeaders?: Function): Observable<any> {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras";
+    "/Estimates/:id/additionals";
     let _routeParams: any = {
       id: id
     };
@@ -1341,60 +1332,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los extras de este modelo.
-   *
-   * @param {any} id Estimate id
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * This method returns no data.
-   */
-  public deleteCoverageExtras(id: any, customHeaders?: Function): Observable<any> {
-    let _method: string = "DELETE";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Recuentos extras de Coverage.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {object} where Criteria to match model instances
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * Data properties:
-   *
-   *  - `count` – `{number}` - 
-   */
-  public countCoverageExtras(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras/count";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    if (typeof where !== 'undefined' && where !== null) _urlParams.where = where;
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Crea una nueva instancia en paymentTypes de este modelo.
+   * Creates a new instance in paymentTypes of this model.
    *
    * @param {any} id Estimate id
    *
@@ -1427,7 +1365,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en estimates de este modelo.
+   * Creates a new instance in estimates of this model.
    *
    * @param {any} id Estimate id
    *
@@ -1460,7 +1398,7 @@ export class EstimateApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en risks de este modelo.
+   * Creates a new instance in risks of this model.
    *
    * @param {any} id Estimate id
    *
@@ -1481,39 +1419,6 @@ export class EstimateApi extends BaseLoopBackApi {
     let _method: string = "POST";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/Estimates/:id/coverage/risks";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {
-      data: data
-    };
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
-
-  /**
-   * Crea una nueva instancia en extras de este modelo.
-   *
-   * @param {any} id Estimate id
-   *
-   * @param {object} data Request data.
-   *
-   * This method expects a subset of model properties as request parameters.
-   *
-   * @returns {object[]} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `Estimate` object.)
-   * </em>
-   */
-  public createManyCoverageExtras(id: any, data: any[] = [], customHeaders?: Function): Observable<any> {
-    let _method: string = "POST";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Estimates/:id/coverage/extras";
     let _routeParams: any = {
       id: id
     };

@@ -16,6 +16,7 @@ export interface ClientInterface {
   "emailVerified"?: boolean;
   "id"?: any;
   "insuranceAgentId"?: any;
+  "password"?: string;
   accessTokens?: any[];
   insuranceAgent?: InsuranceAgent;
 }
@@ -32,6 +33,7 @@ export class Client implements ClientInterface {
   "emailVerified": boolean;
   "id": any;
   "insuranceAgentId": any;
+  "password": string;
   accessTokens: any[];
   insuranceAgent: InsuranceAgent;
   constructor(data?: ClientInterface) {
@@ -64,6 +66,8 @@ export class Client implements ClientInterface {
     return {
       name: 'Client',
       plural: 'Clients',
+      path: 'Clients',
+      idName: 'id',
       properties: {
         "firstName": {
           name: 'firstName',
@@ -109,17 +113,27 @@ export class Client implements ClientInterface {
           name: 'insuranceAgentId',
           type: 'any'
         },
+        "password": {
+          name: 'password',
+          type: 'string'
+        },
       },
       relations: {
         accessTokens: {
           name: 'accessTokens',
           type: 'any[]',
-          model: ''
+          model: '',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'userId'
         },
         insuranceAgent: {
           name: 'insuranceAgent',
           type: 'InsuranceAgent',
-          model: 'InsuranceAgent'
+          model: 'InsuranceAgent',
+          relationType: 'belongsTo',
+                  keyFrom: 'insuranceAgentId',
+          keyTo: 'id'
         },
       }
     }

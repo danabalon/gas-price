@@ -1,15 +1,14 @@
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
 import { LoopBackFilter, SDKToken, AccessToken } from '../../models/BaseModels';
-import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { InsuranceAgent } from '../../models/InsuranceAgent';
 import { SocketConnection } from '../../sockets/socket.connections';
 
@@ -21,22 +20,21 @@ import { SocketConnection } from '../../sockets/socket.connections';
 export class InsuranceAgentApi extends BaseLoopBackApi {
 
   constructor(
-    @Inject(Http) protected http: Http,
+    @Inject(HttpClient) protected http: HttpClient,
     @Inject(SocketConnection) protected connection: SocketConnection,
     @Inject(SDKModels) protected models: SDKModels,
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
-    @Inject(JSONSearchParams) protected searchParams: JSONSearchParams,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, searchParams, errorHandler);
+    super(http,  connection,  models, auth, errorHandler);
   }
 
   /**
-   * Buscar un elemento relacionado por id para accessTokens.
+   * Find a related item by id for accessTokens.
    *
    * @param {any} id InsuranceAgent id
    *
-   * @param {any} fk Clave foránea para accessTokens
+   * @param {any} fk Foreign key for accessTokens
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -62,11 +60,11 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para accessTokens.
+   * Delete a related item by id for accessTokens.
    *
    * @param {any} id InsuranceAgent id
    *
-   * @param {any} fk Clave foránea para accessTokens
+   * @param {any} fk Foreign key for accessTokens
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -89,11 +87,11 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para accessTokens.
+   * Update a related item by id for accessTokens.
    *
    * @param {any} id InsuranceAgent id
    *
-   * @param {any} fk Clave foránea para accessTokens
+   * @param {any} fk Foreign key for accessTokens
    *
    * @param {object} data Request data.
    *
@@ -125,7 +123,7 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
   }
 
   /**
-   * accessTokens consultas de InsuranceAgent.
+   * Queries accessTokens of InsuranceAgent.
    *
    * @param {any} id InsuranceAgent id
    *
@@ -155,7 +153,7 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en accessTokens de este modelo.
+   * Creates a new instance in accessTokens of this model.
    *
    * @param {any} id InsuranceAgent id
    *
@@ -188,7 +186,7 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los accessTokens de este modelo.
+   * Deletes all accessTokens of this model.
    *
    * @param {any} id InsuranceAgent id
    *
@@ -212,7 +210,7 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos accessTokens de InsuranceAgent.
+   * Counts accessTokens of InsuranceAgent.
    *
    * @param {any} id InsuranceAgent id
    *
@@ -338,13 +336,15 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
     let _urlParams: any = {};
     if (typeof include !== 'undefined' && include !== null) _urlParams.include = include;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders)
-      .map(
+      .pipe(
+        map(
         (response: any) => {
           response.ttl = parseInt(response.ttl);
           response.rememberMe = rememberMe;
           this.auth.setToken(response);
           return response;
         }
+      )
       );
       return result;
       
@@ -479,10 +479,13 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/InsuranceAgents/change-password";
     let _routeParams: any = {};
-    let _postBody: any = {};
+    let _postBody: any = {
+      data: {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      }
+    };
     let _urlParams: any = {};
-    if (typeof oldPassword !== 'undefined' && oldPassword !== null) _urlParams.oldPassword = oldPassword;
-    if (typeof newPassword !== 'undefined' && newPassword !== null) _urlParams.newPassword = newPassword;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
@@ -505,15 +508,18 @@ export class InsuranceAgentApi extends BaseLoopBackApi {
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
     "/InsuranceAgents/reset-password";
     let _routeParams: any = {};
-    let _postBody: any = {};
+    let _postBody: any = {
+      data: {
+        newPassword: newPassword
+      }
+    };
     let _urlParams: any = {};
-    if (typeof newPassword !== 'undefined' && newPassword !== null) _urlParams.newPassword = newPassword;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
 
   /**
-   * Crea una nueva instancia en accessTokens de este modelo.
+   * Creates a new instance in accessTokens of this model.
    *
    * @param {any} id InsuranceAgent id
    *

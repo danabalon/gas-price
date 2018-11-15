@@ -20,6 +20,7 @@ export interface InsuranceAgentInterface {
   "email": string;
   "emailVerified"?: boolean;
   "id"?: any;
+  "password"?: string;
   accessTokens?: any[];
 }
 
@@ -42,6 +43,7 @@ export class InsuranceAgent implements InsuranceAgentInterface {
   "email": string;
   "emailVerified": boolean;
   "id": any;
+  "password": string;
   accessTokens: any[];
   constructor(data?: InsuranceAgentInterface) {
     Object.assign(this, data);
@@ -73,6 +75,8 @@ export class InsuranceAgent implements InsuranceAgentInterface {
     return {
       name: 'InsuranceAgent',
       plural: 'InsuranceAgents',
+      path: 'InsuranceAgents',
+      idName: 'id',
       properties: {
         "firstName": {
           name: 'firstName',
@@ -146,12 +150,19 @@ export class InsuranceAgent implements InsuranceAgentInterface {
           name: 'id',
           type: 'any'
         },
+        "password": {
+          name: 'password',
+          type: 'string'
+        },
       },
       relations: {
         accessTokens: {
           name: 'accessTokens',
           type: 'any[]',
-          model: ''
+          model: '',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'userId'
         },
       }
     }

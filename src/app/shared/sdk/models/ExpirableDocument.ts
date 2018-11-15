@@ -8,8 +8,6 @@ export interface ExpirableDocumentInterface {
   "documentName": string;
   "expirationDate": Date;
   "notificationTime": Date;
-  "description": string;
-  "notified"?: boolean;
   "id"?: any;
   "clientId"?: any;
   client?: Client;
@@ -19,8 +17,6 @@ export class ExpirableDocument implements ExpirableDocumentInterface {
   "documentName": string;
   "expirationDate": Date;
   "notificationTime": Date;
-  "description": string;
-  "notified": boolean;
   "id": any;
   "clientId": any;
   client: Client;
@@ -54,6 +50,8 @@ export class ExpirableDocument implements ExpirableDocumentInterface {
     return {
       name: 'ExpirableDocument',
       plural: 'ExpirableDocuments',
+      path: 'ExpirableDocuments',
+      idName: 'id',
       properties: {
         "documentName": {
           name: 'documentName',
@@ -66,14 +64,6 @@ export class ExpirableDocument implements ExpirableDocumentInterface {
         "notificationTime": {
           name: 'notificationTime',
           type: 'Date'
-        },
-        "description": {
-          name: 'description',
-          type: 'string'
-        },
-        "notified": {
-          name: 'notified',
-          type: 'boolean'
         },
         "id": {
           name: 'id',
@@ -88,7 +78,10 @@ export class ExpirableDocument implements ExpirableDocumentInterface {
         client: {
           name: 'client',
           type: 'Client',
-          model: 'Client'
+          model: 'Client',
+          relationType: 'belongsTo',
+                  keyFrom: 'clientId',
+          keyTo: 'id'
         },
       }
     }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { Email } from '../../models/Email';
 import { Applicant } from '../../models/Applicant';
+import { Risk } from '../../models/Risk';
 import { EstimateRequest } from '../../models/EstimateRequest';
 import { PaymentType } from '../../models/PaymentType';
 import { Picture } from '../../models/Picture';
@@ -22,10 +23,10 @@ import { InsuranceCompany } from '../../models/InsuranceCompany';
 import { ExpirableDocument } from '../../models/ExpirableDocument';
 import { DashboardLight } from '../../models/DashboardLight';
 import { GasPrice } from '../../models/GasPrice';
-import { Maintenance } from '../../models/Maintenance';
-import { MaintenanceItem } from '../../models/MaintenanceItem';
-import { MaintenanceItemPreset } from '../../models/MaintenanceItemPreset';
+import { CarService } from '../../models/CarService';
 import { InvoicePicture } from '../../models/InvoicePicture';
+import { OilChangeService } from '../../models/OilChangeService';
+import { OtherService } from '../../models/OtherService';
 
 export interface Models { [name: string]: any }
 
@@ -36,6 +37,7 @@ export class SDKModels {
     User: User,
     Email: Email,
     Applicant: Applicant,
+    Risk: Risk,
     EstimateRequest: EstimateRequest,
     PaymentType: PaymentType,
     Picture: Picture,
@@ -55,10 +57,10 @@ export class SDKModels {
     ExpirableDocument: ExpirableDocument,
     DashboardLight: DashboardLight,
     GasPrice: GasPrice,
-    Maintenance: Maintenance,
-    MaintenanceItem: MaintenanceItem,
-    MaintenanceItemPreset: MaintenanceItemPreset,
+    CarService: CarService,
     InvoicePicture: InvoicePicture,
+    OilChangeService: OilChangeService,
+    OtherService: OtherService,
     
   };
 

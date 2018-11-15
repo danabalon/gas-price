@@ -45,6 +45,8 @@ export class PaymentType implements PaymentTypeInterface {
     return {
       name: 'PaymentType',
       plural: 'PaymentTypes',
+      path: 'PaymentTypes',
+      idName: 'id',
       properties: {
         "alias": {
           name: 'alias',

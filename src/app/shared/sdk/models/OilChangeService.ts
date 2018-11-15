@@ -1,34 +1,32 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface BankAccountTypeInterface {
-  "name": string;
-  "code": string;
+export interface OilChangeServiceInterface {
+  "kmsAtServiceTime": string;
   "id"?: any;
 }
 
-export class BankAccountType implements BankAccountTypeInterface {
-  "name": string;
-  "code": string;
+export class OilChangeService implements OilChangeServiceInterface {
+  "kmsAtServiceTime": string;
   "id": any;
-  constructor(data?: BankAccountTypeInterface) {
+  constructor(data?: OilChangeServiceInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `BankAccountType`.
+   * i.e. `OilChangeService`.
    */
   public static getModelName() {
-    return "BankAccountType";
+    return "OilChangeService";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of BankAccountType for dynamic purposes.
+  * This method creates an instance of OilChangeService for dynamic purposes.
   **/
-  public static factory(data: BankAccountTypeInterface): BankAccountType{
-    return new BankAccountType(data);
+  public static factory(data: OilChangeServiceInterface): OilChangeService{
+    return new OilChangeService(data);
   }
   /**
   * @method getModelDefinition
@@ -39,17 +37,13 @@ export class BankAccountType implements BankAccountTypeInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'BankAccountType',
-      plural: 'BankAccountTypes',
-      path: 'BankAccountTypes',
+      name: 'OilChangeService',
+      plural: 'OilChangeServices',
+      path: 'OilChangeServices',
       idName: 'id',
       properties: {
-        "name": {
-          name: 'name',
-          type: 'string'
-        },
-        "code": {
-          name: 'code',
+        "kmsAtServiceTime": {
+          name: 'kmsAtServiceTime',
           type: 'string'
         },
         "id": {

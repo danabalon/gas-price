@@ -69,6 +69,8 @@ export class GasPrice implements GasPriceInterface {
     return {
       name: 'GasPrice',
       plural: 'GasPrices',
+      path: 'GasPrices',
+      idName: 'id',
       properties: {
         "idempresa": {
           name: 'idempresa',

@@ -20,12 +20,15 @@
 * }
 **/
 export class LoopBackConfig {
-  private static path: string = 'https://tutu-seguro.herokuapp.com';
-  // private static path: string = 'http://192.168.88.71:3000';
+  private static path: string = 'http://tutu-seguro.herokuapp.com';
+  // private static path: string = 'https://192.168.88.60:3000';
   private static version: string | number = 'api';
   private static authPrefix: string = '';
   private static debug: boolean = true;
   private static filterOn: string = 'headers';
+  private static whereOn: string = 'headers';
+  private static secure: boolean = false;
+  private static withCredentials: boolean = false;
 
   public static setApiVersion(version: string = 'api'): void {
     LoopBackConfig.version = version;
@@ -67,7 +70,39 @@ export class LoopBackConfig {
     LoopBackConfig.filterOn = 'headers';
   }
 
+  public static whereOnUrl(): void {
+    LoopBackConfig.whereOn = 'url';
+  }
+
+  public static whereOnHeaders(): void {
+    LoopBackConfig.whereOn = 'headers';
+  }
+
   public static isHeadersFilteringSet(): boolean {
     return (LoopBackConfig.filterOn === 'headers');
+  }
+
+  public static isHeadersWhereSet(): boolean {
+    return (LoopBackConfig.whereOn === 'headers');
+  }
+
+  public static setSecureWebSockets(): void {
+    LoopBackConfig.secure = true;
+  }
+
+  public static unsetSecureWebSockets(): void {
+    LoopBackConfig.secure = false;
+  }
+
+  public static isSecureWebSocketsSet(): boolean {
+    return LoopBackConfig.secure;
+  }
+
+  public static setRequestOptionsCredentials(withCredentials: boolean = false): void {
+    LoopBackConfig.withCredentials = withCredentials;
+  }
+
+  public static getRequestOptionsCredentials(): boolean {
+    return LoopBackConfig.withCredentials;
   }
 }

@@ -41,6 +41,8 @@ export class CardProvider implements CardProviderInterface {
     return {
       name: 'CardProvider',
       plural: 'CardProviders',
+      path: 'CardProviders',
+      idName: 'id',
       properties: {
         "name": {
           name: 'name',

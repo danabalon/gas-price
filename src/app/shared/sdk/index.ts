@@ -1,3 +1,4 @@
+/* tslint:disable */
 /**
 * @module SDKModule
 * @author Jonathan Casarrubias <t:@johncasarrubias> <gh:jonathan-casarrubias>
@@ -33,13 +34,12 @@
 * export class AppModule { }
 *
 **/
-import { JSONSearchParams } from './services/core/search.params';
 import { ErrorHandler } from './services/core/error.service';
 import { LoopBackAuth } from './services/core/auth.service';
 import { LoggerService } from './services/custom/logger.service';
 import { SDKModels } from './services/custom/SDKModels';
 import { InternalStorage, SDKStorage } from './storage/storage.swaps';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CookieBrowser } from './storage/cookie.browser';
@@ -51,6 +51,7 @@ import { RealTime } from './services/core/real.time';
 import { UserApi } from './services/custom/User';
 import { EmailApi } from './services/custom/Email';
 import { ApplicantApi } from './services/custom/Applicant';
+import { RiskApi } from './services/custom/Risk';
 import { EstimateRequestApi } from './services/custom/EstimateRequest';
 import { PaymentTypeApi } from './services/custom/PaymentType';
 import { PictureApi } from './services/custom/Picture';
@@ -70,10 +71,10 @@ import { InsuranceCompanyApi } from './services/custom/InsuranceCompany';
 import { ExpirableDocumentApi } from './services/custom/ExpirableDocument';
 import { DashboardLightApi } from './services/custom/DashboardLight';
 import { GasPriceApi } from './services/custom/GasPrice';
-import { MaintenanceApi } from './services/custom/Maintenance';
-import { MaintenanceItemApi } from './services/custom/MaintenanceItem';
-import { MaintenanceItemPresetApi } from './services/custom/MaintenanceItemPreset';
+import { CarServiceApi } from './services/custom/CarService';
 import { InvoicePictureApi } from './services/custom/InvoicePicture';
+import { OilChangeServiceApi } from './services/custom/OilChangeService';
+import { OtherServiceApi } from './services/custom/OtherService';
 /**
 * @module SDKBrowserModule
 * @description
@@ -84,7 +85,7 @@ import { InvoicePictureApi } from './services/custom/InvoicePicture';
 *  3.- Progressive applications (Angular Mobile, Ionic, WebViews, etc)
 **/
 @NgModule({
-  imports:      [ CommonModule, HttpModule ],
+  imports:      [ CommonModule, HttpClientModule ],
   declarations: [ ],
   exports:      [ ],
   providers:    [
@@ -102,12 +103,12 @@ export class SDKBrowserModule {
       providers : [
         LoopBackAuth,
         LoggerService,
-        JSONSearchParams,
         SDKModels,
         RealTime,
         UserApi,
         EmailApi,
         ApplicantApi,
+        RiskApi,
         EstimateRequestApi,
         PaymentTypeApi,
         PictureApi,
@@ -127,10 +128,10 @@ export class SDKBrowserModule {
         ExpirableDocumentApi,
         DashboardLightApi,
         GasPriceApi,
-        MaintenanceApi,
-        MaintenanceItemApi,
-        MaintenanceItemPresetApi,
+        CarServiceApi,
         InvoicePictureApi,
+        OilChangeServiceApi,
+        OtherServiceApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }
@@ -148,3 +149,4 @@ export * from './lb.config';
 export * from './storage/storage.swaps';
 export { CookieBrowser } from './storage/cookie.browser';
 export { StorageBrowser } from './storage/storage.browser';
+

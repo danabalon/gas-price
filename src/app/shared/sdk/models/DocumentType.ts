@@ -43,6 +43,8 @@ export class DocumentType implements DocumentTypeInterface {
     return {
       name: 'DocumentType',
       plural: 'DocumentTypes',
+      path: 'DocumentTypes',
+      idName: 'id',
       properties: {
         "name": {
           name: 'name',

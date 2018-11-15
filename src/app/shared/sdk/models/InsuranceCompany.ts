@@ -41,6 +41,8 @@ export class InsuranceCompany implements InsuranceCompanyInterface {
     return {
       name: 'InsuranceCompany',
       plural: 'InsuranceCompanies',
+      path: 'InsuranceCompanies',
+      idName: 'id',
       properties: {
         "email": {
           name: 'email',

@@ -7,6 +7,7 @@ export interface UserInterface {
   "email": string;
   "emailVerified"?: boolean;
   "id"?: number;
+  "password"?: string;
   accessTokens?: any[];
 }
 
@@ -16,6 +17,7 @@ export class User implements UserInterface {
   "email": string;
   "emailVerified": boolean;
   "id": number;
+  "password": string;
   accessTokens: any[];
   constructor(data?: UserInterface) {
     Object.assign(this, data);
@@ -47,6 +49,8 @@ export class User implements UserInterface {
     return {
       name: 'User',
       plural: 'Users',
+      path: 'Users',
+      idName: 'id',
       properties: {
         "realm": {
           name: 'realm',
@@ -68,12 +72,19 @@ export class User implements UserInterface {
           name: 'id',
           type: 'number'
         },
+        "password": {
+          name: 'password',
+          type: 'string'
+        },
       },
       relations: {
         accessTokens: {
           name: 'accessTokens',
           type: 'any[]',
-          model: ''
+          model: '',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'userId'
         },
       }
     }

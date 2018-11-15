@@ -1,15 +1,14 @@
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
 import { LoopBackFilter,  } from '../../models/BaseModels';
-import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { PolicyRequest } from '../../models/PolicyRequest';
 import { SocketConnection } from '../../sockets/socket.connections';
 import { Estimate } from '../../models/Estimate';
@@ -27,18 +26,17 @@ import { Gender } from '../../models/Gender';
 export class PolicyRequestApi extends BaseLoopBackApi {
 
   constructor(
-    @Inject(Http) protected http: Http,
+    @Inject(HttpClient) protected http: HttpClient,
     @Inject(SocketConnection) protected connection: SocketConnection,
     @Inject(SDKModels) protected models: SDKModels,
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
-    @Inject(JSONSearchParams) protected searchParams: JSONSearchParams,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, searchParams, errorHandler);
+    super(http,  connection,  models, auth, errorHandler);
   }
 
   /**
-   * Capta la relación belongsTo estimate.
+   * Fetches belongsTo relation estimate.
    *
    * @param {any} id PolicyRequest id
    *
@@ -68,7 +66,7 @@ export class PolicyRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo client.
+   * Fetches belongsTo relation client.
    *
    * @param {any} id PolicyRequest id
    *
@@ -98,7 +96,7 @@ export class PolicyRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo paymentData.
+   * Fetches belongsTo relation paymentData.
    *
    * @param {any} id PolicyRequest id
    *
@@ -128,7 +126,7 @@ export class PolicyRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo insuranceAgent.
+   * Fetches belongsTo relation insuranceAgent.
    *
    * @param {any} id PolicyRequest id
    *
@@ -158,7 +156,7 @@ export class PolicyRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo vehicleData.
+   * Fetches belongsTo relation vehicleData.
    *
    * @param {any} id PolicyRequest id
    *
@@ -188,7 +186,7 @@ export class PolicyRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo documentType.
+   * Fetches belongsTo relation documentType.
    *
    * @param {any} id PolicyRequest id
    *
@@ -218,7 +216,7 @@ export class PolicyRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo gender.
+   * Fetches belongsTo relation gender.
    *
    * @param {any} id PolicyRequest id
    *

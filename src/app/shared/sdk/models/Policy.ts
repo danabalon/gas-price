@@ -13,10 +13,9 @@ export interface PolicyInterface {
   "articleCode": string;
   "price": string;
   "completed": boolean;
-  "certificateUrl"?: string;
-  "clausesUrl"?: string;
-  "mercosurCardUrl"?: string;
-  "beingVerified"?: boolean;
+  "certificateUrl": string;
+  "clausesUrl": string;
+  "mercosurCardUrl": string;
   "id"?: any;
   "policyRequestId"?: any;
   "insuranceAgentId"?: any;
@@ -36,7 +35,6 @@ export class Policy implements PolicyInterface {
   "certificateUrl": string;
   "clausesUrl": string;
   "mercosurCardUrl": string;
-  "beingVerified": boolean;
   "id": any;
   "policyRequestId": any;
   "insuranceAgentId": any;
@@ -74,6 +72,8 @@ export class Policy implements PolicyInterface {
     return {
       name: 'Policy',
       plural: 'Policies',
+      path: 'Policies',
+      idName: 'id',
       properties: {
         "company": {
           name: 'company',
@@ -111,10 +111,6 @@ export class Policy implements PolicyInterface {
           name: 'mercosurCardUrl',
           type: 'string'
         },
-        "beingVerified": {
-          name: 'beingVerified',
-          type: 'boolean'
-        },
         "id": {
           name: 'id',
           type: 'any'
@@ -136,17 +132,26 @@ export class Policy implements PolicyInterface {
         policyRequest: {
           name: 'policyRequest',
           type: 'PolicyRequest',
-          model: 'PolicyRequest'
+          model: 'PolicyRequest',
+          relationType: 'belongsTo',
+                  keyFrom: 'policyRequestId',
+          keyTo: 'id'
         },
         insuranceAgent: {
           name: 'insuranceAgent',
           type: 'InsuranceAgent',
-          model: 'InsuranceAgent'
+          model: 'InsuranceAgent',
+          relationType: 'belongsTo',
+                  keyFrom: 'insuranceAgentId',
+          keyTo: 'id'
         },
         client: {
           name: 'client',
           type: 'Client',
-          model: 'Client'
+          model: 'Client',
+          relationType: 'belongsTo',
+                  keyFrom: 'clientId',
+          keyTo: 'id'
         },
       }
     }

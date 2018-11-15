@@ -45,6 +45,8 @@ export class DashboardLight implements DashboardLightInterface {
     return {
       name: 'DashboardLight',
       plural: 'DashboardLights',
+      path: 'DashboardLights',
+      idName: 'id',
       properties: {
         "lightIcon": {
           name: 'lightIcon',

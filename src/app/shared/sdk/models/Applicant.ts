@@ -12,6 +12,7 @@ export interface ApplicantInterface {
   "email": string;
   "emailVerified"?: boolean;
   "id"?: any;
+  "password"?: string;
   accessTokens?: any[];
 }
 
@@ -26,6 +27,7 @@ export class Applicant implements ApplicantInterface {
   "email": string;
   "emailVerified": boolean;
   "id": any;
+  "password": string;
   accessTokens: any[];
   constructor(data?: ApplicantInterface) {
     Object.assign(this, data);
@@ -57,6 +59,8 @@ export class Applicant implements ApplicantInterface {
     return {
       name: 'Applicant',
       plural: 'Applicants',
+      path: 'Applicants',
+      idName: 'id',
       properties: {
         "firstName": {
           name: 'firstName',
@@ -98,12 +102,19 @@ export class Applicant implements ApplicantInterface {
           name: 'id',
           type: 'any'
         },
+        "password": {
+          name: 'password',
+          type: 'string'
+        },
       },
       relations: {
         accessTokens: {
           name: 'accessTokens',
           type: 'any[]',
-          model: ''
+          model: '',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'userId'
         },
       }
     }

@@ -97,6 +97,8 @@ export class PolicyRequest implements PolicyRequestInterface {
     return {
       name: 'PolicyRequest',
       plural: 'PolicyRequests',
+      path: 'PolicyRequests',
+      idName: 'id',
       properties: {
         "active": {
           name: 'active',
@@ -183,37 +185,58 @@ export class PolicyRequest implements PolicyRequestInterface {
         estimate: {
           name: 'estimate',
           type: 'Estimate',
-          model: 'Estimate'
+          model: 'Estimate',
+          relationType: 'belongsTo',
+                  keyFrom: 'estimateId',
+          keyTo: 'id'
         },
         client: {
           name: 'client',
           type: 'Client',
-          model: 'Client'
+          model: 'Client',
+          relationType: 'belongsTo',
+                  keyFrom: 'clientId',
+          keyTo: 'id'
         },
         paymentData: {
           name: 'paymentData',
           type: 'any',
-          model: ''
+          model: '',
+          relationType: 'belongsTo',
+                  keyFrom: 'paymentDataId',
+          keyTo: 'id'
         },
         insuranceAgent: {
           name: 'insuranceAgent',
           type: 'InsuranceAgent',
-          model: 'InsuranceAgent'
+          model: 'InsuranceAgent',
+          relationType: 'belongsTo',
+                  keyFrom: 'insuranceAgentId',
+          keyTo: 'id'
         },
         vehicleData: {
           name: 'vehicleData',
           type: 'VehicleData',
-          model: 'VehicleData'
+          model: 'VehicleData',
+          relationType: 'belongsTo',
+                  keyFrom: 'vehicleDataId',
+          keyTo: 'id'
         },
         documentType: {
           name: 'documentType',
           type: 'DocumentType',
-          model: 'DocumentType'
+          model: 'DocumentType',
+          relationType: 'belongsTo',
+                  keyFrom: 'documentTypeId',
+          keyTo: 'id'
         },
         gender: {
           name: 'gender',
           type: 'Gender',
-          model: 'Gender'
+          model: 'Gender',
+          relationType: 'belongsTo',
+                  keyFrom: 'genderId',
+          keyTo: 'id'
         },
       }
     }

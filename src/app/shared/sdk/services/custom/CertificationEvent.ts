@@ -1,15 +1,14 @@
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
 import { LoopBackFilter,  } from '../../models/BaseModels';
-import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CertificationEvent } from '../../models/CertificationEvent';
 import { SocketConnection } from '../../sockets/socket.connections';
 import { Client } from '../../models/Client';
@@ -25,18 +24,17 @@ import { InsuranceCompany } from '../../models/InsuranceCompany';
 export class CertificationEventApi extends BaseLoopBackApi {
 
   constructor(
-    @Inject(Http) protected http: Http,
+    @Inject(HttpClient) protected http: HttpClient,
     @Inject(SocketConnection) protected connection: SocketConnection,
     @Inject(SDKModels) protected models: SDKModels,
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
-    @Inject(JSONSearchParams) protected searchParams: JSONSearchParams,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, searchParams, errorHandler);
+    super(http,  connection,  models, auth, errorHandler);
   }
 
   /**
-   * Capta la relación belongsTo client.
+   * Fetches belongsTo relation client.
    *
    * @param {any} id CertificationEvent id
    *
@@ -66,11 +64,11 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para pictureList.
+   * Find a related item by id for pictureList.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {any} fk Clave foránea para pictureList
+   * @param {any} fk Foreign key for pictureList
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -96,11 +94,11 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para pictureList.
+   * Delete a related item by id for pictureList.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {any} fk Clave foránea para pictureList
+   * @param {any} fk Foreign key for pictureList
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -123,11 +121,11 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para pictureList.
+   * Update a related item by id for pictureList.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {any} fk Clave foránea para pictureList
+   * @param {any} fk Foreign key for pictureList
    *
    * @param {object} data Request data.
    *
@@ -159,7 +157,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo policy.
+   * Fetches belongsTo relation policy.
    *
    * @param {any} id CertificationEvent id
    *
@@ -189,7 +187,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación hasOne certificationData.
+   * Fetches hasOne relation certificationData.
    *
    * @param {any} id CertificationEvent id
    *
@@ -219,7 +217,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en certificationData de este modelo.
+   * Creates a new instance in certificationData of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -252,7 +250,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar certificationData de este modelo.
+   * Update certificationData of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -285,7 +283,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime certificationData de este modelo.
+   * Deletes certificationData of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -309,7 +307,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo segViewData.
+   * Fetches belongsTo relation segViewData.
    *
    * @param {any} id CertificationEvent id
    *
@@ -339,11 +337,11 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para uCertifyData.
+   * Find a related item by id for uCertifyData.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {any} fk Clave foránea para uCertifyData
+   * @param {any} fk Foreign key for uCertifyData
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -369,11 +367,11 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para uCertifyData.
+   * Delete a related item by id for uCertifyData.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {any} fk Clave foránea para uCertifyData
+   * @param {any} fk Foreign key for uCertifyData
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -396,11 +394,11 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para uCertifyData.
+   * Update a related item by id for uCertifyData.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {any} fk Clave foránea para uCertifyData
+   * @param {any} fk Foreign key for uCertifyData
    *
    * @param {object} data Request data.
    *
@@ -432,7 +430,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo insuranceCompany.
+   * Fetches belongsTo relation insuranceCompany.
    *
    * @param {any} id CertificationEvent id
    *
@@ -462,7 +460,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo procedureType.
+   * Fetches belongsTo relation procedureType.
    *
    * @param {any} id CertificationEvent id
    *
@@ -491,9 +489,38 @@ export class CertificationEventApi extends BaseLoopBackApi {
     return result;
   }
 
+  /**
+   * Fetches belongsTo relation certificate.
+   *
+   * @param {any} id CertificationEvent id
+   *
+   * @param {boolean} refresh 
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CertificationEvent` object.)
+   * </em>
+   */
+  public getCertificate(id: any, refresh: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/CertificationEvents/:id/certificate";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof refresh !== 'undefined' && refresh !== null) _urlParams.refresh = refresh;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
 
   /**
-   * pictureList consultas de CertificationEvent.
+   * Queries pictureList of CertificationEvent.
    *
    * @param {any} id CertificationEvent id
    *
@@ -523,7 +550,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en pictureList de este modelo.
+   * Creates a new instance in pictureList of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -556,7 +583,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los pictureList de este modelo.
+   * Deletes all pictureList of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -580,7 +607,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos pictureList de CertificationEvent.
+   * Counts pictureList of CertificationEvent.
    *
    * @param {any} id CertificationEvent id
    *
@@ -609,7 +636,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * uCertifyData consultas de CertificationEvent.
+   * Queries uCertifyData of CertificationEvent.
    *
    * @param {any} id CertificationEvent id
    *
@@ -639,7 +666,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en uCertifyData de este modelo.
+   * Creates a new instance in uCertifyData of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -672,7 +699,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los uCertifyData de este modelo.
+   * Deletes all uCertifyData of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -696,7 +723,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos uCertifyData de CertificationEvent.
+   * Counts uCertifyData of CertificationEvent.
    *
    * @param {any} id CertificationEvent id
    *
@@ -811,8 +838,6 @@ export class CertificationEventApi extends BaseLoopBackApi {
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
-    if (typeof req !== 'undefined' && req !== null) _urlParams.req = req;
-    if (typeof res !== 'undefined' && res !== null) _urlParams.res = res;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
@@ -842,43 +867,13 @@ export class CertificationEventApi extends BaseLoopBackApi {
     let _routeParams: any = {};
     let _postBody: any = {};
     let _urlParams: any = {};
-    if (typeof req !== 'undefined' && req !== null) _urlParams.req = req;
-    if (typeof res !== 'undefined' && res !== null) _urlParams.res = res;
     let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
     return result;
   }
 
-  /**
-   * Uploads a file
-   *
-   * @param {string} id 
-   *
-   * @param {object} options 
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `CertificationEvent` object.)
-   * </em>
-   */
-  public getCertificate(id: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/CertificationEvents/:id/getCertificate/";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
 
   /**
-   * Crea una nueva instancia en certificationData de este modelo.
+   * Creates a new instance in certificationData of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -911,7 +906,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en pictureList de este modelo.
+   * Creates a new instance in pictureList of this model.
    *
    * @param {any} id CertificationEvent id
    *
@@ -944,7 +939,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en uCertifyData de este modelo.
+   * Creates a new instance in uCertifyData of this model.
    *
    * @param {any} id CertificationEvent id
    *

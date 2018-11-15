@@ -1,34 +1,32 @@
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
 import { LoopBackFilter,  } from '../../models/BaseModels';
-import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
-import { MaintenanceItem } from '../../models/MaintenanceItem';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Risk } from '../../models/Risk';
 import { SocketConnection } from '../../sockets/socket.connections';
 
 
 /**
- * Api services for the `MaintenanceItem` model.
+ * Api services for the `Risk` model.
  */
 @Injectable()
-export class MaintenanceItemApi extends BaseLoopBackApi {
+export class RiskApi extends BaseLoopBackApi {
 
   constructor(
-    @Inject(Http) protected http: Http,
+    @Inject(HttpClient) protected http: HttpClient,
     @Inject(SocketConnection) protected connection: SocketConnection,
     @Inject(SDKModels) protected models: SDKModels,
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
-    @Inject(JSONSearchParams) protected searchParams: JSONSearchParams,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, searchParams, errorHandler);
+    super(http,  connection,  models, auth, errorHandler);
   }
 
   /**
@@ -44,13 +42,13 @@ export class MaintenanceItemApi extends BaseLoopBackApi {
    *
    * <em>
    * (The remote method definition does not provide any description.
-   * This usually means the response is a `MaintenanceItem` object.)
+   * This usually means the response is a `Risk` object.)
    * </em>
    */
   public patchOrCreate(data: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "PATCH";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/MaintenanceItems";
+    "/Risks";
     let _routeParams: any = {};
     let _postBody: any = {
       data: data
@@ -63,7 +61,7 @@ export class MaintenanceItemApi extends BaseLoopBackApi {
   /**
    * Patch attributes for a model instance and persist it into the data source.
    *
-   * @param {any} id MaintenanceItem id
+   * @param {any} id Risk id
    *
    * @param {object} data Request data.
    *
@@ -75,13 +73,13 @@ export class MaintenanceItemApi extends BaseLoopBackApi {
    *
    * <em>
    * (The remote method definition does not provide any description.
-   * This usually means the response is a `MaintenanceItem` object.)
+   * This usually means the response is a `Risk` object.)
    * </em>
    */
   public patchAttributes(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "PATCH";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/MaintenanceItems/:id";
+    "/Risks/:id";
     let _routeParams: any = {
       id: id
     };
@@ -95,9 +93,9 @@ export class MaintenanceItemApi extends BaseLoopBackApi {
 
   /**
    * The name of the model represented by this $resource,
-   * i.e. `MaintenanceItem`.
+   * i.e. `Risk`.
    */
   public getModelName() {
-    return "MaintenanceItem";
+    return "Risk";
   }
 }

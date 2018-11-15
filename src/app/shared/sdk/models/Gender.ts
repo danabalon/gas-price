@@ -41,6 +41,8 @@ export class Gender implements GenderInterface {
     return {
       name: 'Gender',
       plural: 'Genders',
+      path: 'Genders',
+      idName: 'id',
       properties: {
         "name": {
           name: 'name',

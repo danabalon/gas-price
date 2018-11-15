@@ -12,6 +12,7 @@ export interface EstimateInterface {
   "id"?: any;
   "estimateRequestId"?: any;
   "coverageId"?: any;
+  additionals?: any[];
   estimateRequest?: EstimateRequest;
   paymentTypes?: PaymentType[];
   coverage?: Coverage;
@@ -23,6 +24,7 @@ export class Estimate implements EstimateInterface {
   "id": any;
   "estimateRequestId": any;
   "coverageId": any;
+  additionals: any[];
   estimateRequest: EstimateRequest;
   paymentTypes: PaymentType[];
   coverage: Coverage;
@@ -56,6 +58,8 @@ export class Estimate implements EstimateInterface {
     return {
       name: 'Estimate',
       plural: 'Estimates',
+      path: 'Estimates',
+      idName: 'id',
       properties: {
         "price": {
           name: 'price',
@@ -79,20 +83,39 @@ export class Estimate implements EstimateInterface {
         },
       },
       relations: {
+        additionals: {
+          name: 'additionals',
+          type: 'any[]',
+          model: '',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'estimateId'
+        },
         estimateRequest: {
           name: 'estimateRequest',
           type: 'EstimateRequest',
-          model: 'EstimateRequest'
+          model: 'EstimateRequest',
+          relationType: 'belongsTo',
+                  keyFrom: 'estimateRequestId',
+          keyTo: 'id'
         },
         paymentTypes: {
           name: 'paymentTypes',
           type: 'PaymentType[]',
-          model: 'PaymentType'
+          model: 'PaymentType',
+          relationType: 'hasMany',
+          modelThrough: 'EstimatePaymentType',
+          keyThrough: 'paymentTypeId',
+          keyFrom: 'id',
+          keyTo: 'estimateId'
         },
         coverage: {
           name: 'coverage',
           type: 'Coverage',
-          model: 'Coverage'
+          model: 'Coverage',
+          relationType: 'belongsTo',
+                  keyFrom: 'coverageId',
+          keyTo: 'id'
         },
       }
     }

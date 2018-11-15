@@ -66,6 +66,8 @@ export class EstimateRequest implements EstimateRequestInterface {
     return {
       name: 'EstimateRequest',
       plural: 'EstimateRequests',
+      path: 'EstimateRequests',
+      idName: 'id',
       properties: {
         "estimateNumber": {
           name: 'estimateNumber',
@@ -112,17 +114,26 @@ export class EstimateRequest implements EstimateRequestInterface {
         applicant: {
           name: 'applicant',
           type: 'Applicant',
-          model: 'Applicant'
+          model: 'Applicant',
+          relationType: 'belongsTo',
+                  keyFrom: 'applicantId',
+          keyTo: 'id'
         },
         client: {
           name: 'client',
           type: 'Client',
-          model: 'Client'
+          model: 'Client',
+          relationType: 'belongsTo',
+                  keyFrom: 'clientId',
+          keyTo: 'id'
         },
         estimates: {
           name: 'estimates',
           type: 'Estimate[]',
-          model: 'Estimate'
+          model: 'Estimate',
+          relationType: 'hasMany',
+                  keyFrom: 'id',
+          keyTo: 'estimateRequestId'
         },
       }
     }

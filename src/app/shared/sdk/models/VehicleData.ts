@@ -51,6 +51,8 @@ export class VehicleData implements VehicleDataInterface {
     return {
       name: 'VehicleData',
       plural: 'VehicleData',
+      path: 'VehicleData',
+      idName: 'id',
       properties: {
         "brand": {
           name: 'brand',

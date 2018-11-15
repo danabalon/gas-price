@@ -53,6 +53,8 @@ export class Picture implements PictureInterface {
     return {
       name: 'Picture',
       plural: 'Pictures',
+      path: 'Pictures',
+      idName: 'id',
       properties: {
         "name": {
           name: 'name',
@@ -91,7 +93,10 @@ export class Picture implements PictureInterface {
         segViewData: {
           name: 'segViewData',
           type: 'any',
-          model: ''
+          model: '',
+          relationType: 'belongsTo',
+                  keyFrom: 'segViewDataId',
+          keyTo: 'id'
         },
       }
     }

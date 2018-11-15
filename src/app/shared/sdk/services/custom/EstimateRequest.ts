@@ -1,15 +1,14 @@
 /* tslint:disable */
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { SDKModels } from './SDKModels';
 import { BaseLoopBackApi } from '../core/base.service';
 import { LoopBackConfig } from '../../lb.config';
 import { LoopBackAuth } from '../core/auth.service';
 import { LoopBackFilter,  } from '../../models/BaseModels';
-import { JSONSearchParams } from '../core/search.params';
 import { ErrorHandler } from '../core/error.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EstimateRequest } from '../../models/EstimateRequest';
 import { SocketConnection } from '../../sockets/socket.connections';
 import { Applicant } from '../../models/Applicant';
@@ -24,18 +23,17 @@ import { Estimate } from '../../models/Estimate';
 export class EstimateRequestApi extends BaseLoopBackApi {
 
   constructor(
-    @Inject(Http) protected http: Http,
+    @Inject(HttpClient) protected http: HttpClient,
     @Inject(SocketConnection) protected connection: SocketConnection,
     @Inject(SDKModels) protected models: SDKModels,
     @Inject(LoopBackAuth) protected auth: LoopBackAuth,
-    @Inject(JSONSearchParams) protected searchParams: JSONSearchParams,
     @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
   ) {
-    super(http,  connection,  models, auth, searchParams, errorHandler);
+    super(http,  connection,  models, auth, errorHandler);
   }
 
   /**
-   * Capta la relación belongsTo applicant.
+   * Fetches belongsTo relation applicant.
    *
    * @param {any} id EstimateRequest id
    *
@@ -65,7 +63,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Capta la relación belongsTo client.
+   * Fetches belongsTo relation client.
    *
    * @param {any} id EstimateRequest id
    *
@@ -95,11 +93,11 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para estimates.
+   * Find a related item by id for estimates.
    *
    * @param {any} id EstimateRequest id
    *
-   * @param {any} fk Clave foránea para estimates
+   * @param {any} fk Foreign key for estimates
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -125,11 +123,11 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para estimates.
+   * Delete a related item by id for estimates.
    *
    * @param {any} id EstimateRequest id
    *
-   * @param {any} fk Clave foránea para estimates
+   * @param {any} fk Foreign key for estimates
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -152,11 +150,11 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para estimates.
+   * Update a related item by id for estimates.
    *
    * @param {any} id EstimateRequest id
    *
-   * @param {any} fk Clave foránea para estimates
+   * @param {any} fk Foreign key for estimates
    *
    * @param {object} data Request data.
    *
@@ -188,7 +186,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * estimates consultas de EstimateRequest.
+   * Queries estimates of EstimateRequest.
    *
    * @param {any} id EstimateRequest id
    *
@@ -218,7 +216,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en estimates de este modelo.
+   * Creates a new instance in estimates of this model.
    *
    * @param {any} id EstimateRequest id
    *
@@ -251,7 +249,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los estimates de este modelo.
+   * Deletes all estimates of this model.
    *
    * @param {any} id EstimateRequest id
    *
@@ -275,7 +273,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos estimates de EstimateRequest.
+   * Counts estimates of EstimateRequest.
    *
    * @param {any} id EstimateRequest id
    *
@@ -541,11 +539,11 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Buscar un elemento relacionado por id para accessTokens.
+   * Find a related item by id for accessTokens.
    *
    * @param {any} id EstimateRequest id
    *
-   * @param {any} fk Clave foránea para accessTokens
+   * @param {any} fk Foreign key for accessTokens
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -571,11 +569,11 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprimir un elemento relacionado por id para accessTokens.
+   * Delete a related item by id for accessTokens.
    *
    * @param {any} id EstimateRequest id
    *
-   * @param {any} fk Clave foránea para accessTokens
+   * @param {any} fk Foreign key for accessTokens
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -598,11 +596,11 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Actualizar un elemento relacionado por id para accessTokens.
+   * Update a related item by id for accessTokens.
    *
    * @param {any} id EstimateRequest id
    *
-   * @param {any} fk Clave foránea para accessTokens
+   * @param {any} fk Foreign key for accessTokens
    *
    * @param {object} data Request data.
    *
@@ -634,7 +632,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * accessTokens consultas de Client.
+   * Queries accessTokens of Client.
    *
    * @param {any} id EstimateRequest id
    *
@@ -664,7 +662,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en accessTokens de este modelo.
+   * Creates a new instance in accessTokens of this model.
    *
    * @param {any} id EstimateRequest id
    *
@@ -697,7 +695,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Suprime todos los accessTokens de este modelo.
+   * Deletes all accessTokens of this model.
    *
    * @param {any} id EstimateRequest id
    *
@@ -721,7 +719,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Recuentos accessTokens de Client.
+   * Counts accessTokens of Client.
    *
    * @param {any} id EstimateRequest id
    *
@@ -750,7 +748,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en estimates de este modelo.
+   * Creates a new instance in estimates of this model.
    *
    * @param {any} id EstimateRequest id
    *
@@ -783,7 +781,7 @@ export class EstimateRequestApi extends BaseLoopBackApi {
   }
 
   /**
-   * Crea una nueva instancia en accessTokens de este modelo.
+   * Creates a new instance in accessTokens of this model.
    *
    * @param {any} id EstimateRequest id
    *

@@ -1,34 +1,34 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface MaintenanceItemPresetInterface {
-  "description"?: string;
-  "name": string;
+export interface OtherServiceInterface {
+  "kmsAtService": string;
+  "serviceName": string;
   "id"?: any;
 }
 
-export class MaintenanceItemPreset implements MaintenanceItemPresetInterface {
-  "description": string;
-  "name": string;
+export class OtherService implements OtherServiceInterface {
+  "kmsAtService": string;
+  "serviceName": string;
   "id": any;
-  constructor(data?: MaintenanceItemPresetInterface) {
+  constructor(data?: OtherServiceInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `MaintenanceItemPreset`.
+   * i.e. `OtherService`.
    */
   public static getModelName() {
-    return "MaintenanceItemPreset";
+    return "OtherService";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of MaintenanceItemPreset for dynamic purposes.
+  * This method creates an instance of OtherService for dynamic purposes.
   **/
-  public static factory(data: MaintenanceItemPresetInterface): MaintenanceItemPreset{
-    return new MaintenanceItemPreset(data);
+  public static factory(data: OtherServiceInterface): OtherService{
+    return new OtherService(data);
   }
   /**
   * @method getModelDefinition
@@ -39,15 +39,17 @@ export class MaintenanceItemPreset implements MaintenanceItemPresetInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'MaintenanceItemPreset',
-      plural: 'MaintenanceItemPresets',
+      name: 'OtherService',
+      plural: 'OtherServices',
+      path: 'OtherServices',
+      idName: 'id',
       properties: {
-        "description": {
-          name: 'description',
+        "kmsAtService": {
+          name: 'kmsAtService',
           type: 'string'
         },
-        "name": {
-          name: 'name',
+        "serviceName": {
+          name: 'serviceName',
           type: 'string'
         },
         "id": {
