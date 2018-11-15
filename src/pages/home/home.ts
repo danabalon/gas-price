@@ -35,6 +35,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.sliders.lockSwipes(true);
+    this.searchGas();
 
   }
 
@@ -42,11 +43,9 @@ export class HomePage {
     console.log('Map Ready..');
     this.maps = event;
     console.log(this.maps);
-    // this.maps.addMarker();
-    this.searchGas();
   }
 
-  changeSlide () {
+  changeSlide() {
     this.sliders.lockSwipes(false);
     this.sliders.slideTo(this.index);
     this.index = (this.index)? 0 : 1;
@@ -64,13 +63,12 @@ export class HomePage {
      },
     };
     const loading = this.loadingCrtl.create({ content: 'Cargando...'});
-    this.gasPriceApi.find(filter).subscribe((gasPrice:GasPrice[]) => {
+    this.gasPriceApi.find(filter).subscribe((gasPrice: GasPrice[]) => {
       loading.dismissAll();
-
       this.companys = gasPrice;
       this.companys.forEach((comp) => {
-        comp.longitud = Number(comp.longitud);
-        comp.latitud= Number(comp.latitud);
+        console.log(comp.longitud);
+        console.log(comp.latitud);
       });
       console.log(gasPrice);
     }, (e) => {

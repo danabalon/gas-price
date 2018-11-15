@@ -16,27 +16,29 @@
     <ion-slide>
       <!--[disableDoubleClickZoom]="true"  [clickableIcons]="false" [disableDefaultUI]="true" [scrollwheel]="false"  [zoomControl]="false" [gestureHandling]="'none'"-->
       <!--iconUrl-->
-      <agm-map #maps [latitude]="lat" [longitude]="lng" (mapReady)="mapLoad($event)"
-               [draggable]="false" [zoom]="15" [streetViewControl]="false"
-               [styles]="styles"
-               [maxZoom]="15" [minZoom]="10">
-        <div *ngFor="let comp of companys">
-          <agm-marker [latitude]="comp.latitude | number" [longitude]="comp.longitude | number"
-                      [label]="{color: 'black', text: '$37,45', fontWeight: 'bold', fontSize: '15px'}"
-                      [title]="'YPF'"
-                      [iconUrl]="{url: 'assets/imgs/YPF.png', scaledSize: { height: 40, width: 40 }, labelOrigin: {x: 18, y: 40}}">
+      <div *ngIf="companys">
+        <agm-map #maps [latitude]="lat" [longitude]="lng" (mapReady)="mapLoad($event)"
+                 [draggable]="false" [zoom]="15" [streetViewControl]="false"
+                 [styles]="styles"
+                 [maxZoom]="15" [minZoom]="10">
+          <div *ngFor="let comp of companys">
+            <agm-marker [latitude]="comp.latitud" [longitude]="comp.longitud"
+                        [label]="{color: 'black', text: '$' + comp.precio , fontWeight: 'bold', fontSize: '15px'}"
+                        [title]="comp.empresa"
+                        [iconUrl]="{url: (comp.idempresabandera === '2')? 'assets/imgs/YPF.png' : (comp.idempresabandera === '1') ? 'assets/imgs/shell.png' : (comp.idempresabandera === '3') ? 'assets/imgs/axion.jpeg' : (comp.idempresabandera === '4') ? 'assets/imgs/petrobras.png' : 'assets/imgs/logo.png', scaledSize: { height: 40, width: 40 }, labelOrigin: {x: 18, y: 40}}">
 
-            <agm-info-window>
-              <p>
-                YPF Sucursal 4 <br>
-                Av. Aca mismo 666
-              </p>
-              <a>link</a>
-            </agm-info-window>
-          </agm-marker>
-        </div>
+              <agm-info-window>
+                <p>
+                  YPF Sucursal 4 <br>
+                  Av. Aca mismo 666
+                </p>
+                <a>link</a>
+              </agm-info-window>
+            </agm-marker>
+          </div>
+        </agm-map>
+      </div>
 
-      </agm-map>
     </ion-slide>
     <ion-slide>
 
