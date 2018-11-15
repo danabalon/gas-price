@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, Slides} from 'ionic-angular';
+import {LoadingController, NavController, Slides} from 'ionic-angular';
 import {GasPriceApi} from "../../app/shared/sdk/services/custom";
+import {GasPrice} from "../../app/shared/sdk/models";
 declare const google: any;
 
 @Component({
@@ -13,34 +14,38 @@ export class HomePage {
   lat: number = -38.954933;
   lng: number = -68.050773;
   icon = { url: 'assets/images/favicon.ico', scaledSize: { height: 40, width: 20 }};
-  gasType = 1;
-  company = 1;
+  gasType = 2;
+  company = 2;
 
   styles: any[] = [
     // {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
     // {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
     // {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
   ];
-
+  companys:GasPrice[];
+  index=1;
   @ViewChild('sliders') sliders: Slides;
+  maps;
 
   constructor(private gasPriceApi: GasPriceApi,
+              private loadingCrtl:LoadingController,
               public navCtrl: NavController) {
 
   }
 
-  map:any;
-
   ionViewDidLoad() {
     this.sliders.lockSwipes(true);
-  }
 
+  }
 
   mapLoad(event) {
     console.log('Map Ready..');
+    this.maps = event;
+    console.log(this.maps);
+    // this.maps.addMarker();
+    this.searchGas();
   }
 
-  index=1;
   changeSlide () {
     this.sliders.lockSwipes(false);
     this.sliders.slideTo(this.index);
@@ -49,11 +54,27 @@ export class HomePage {
     this.sliders.lockSwipes(true);
   }
 
-  changeFilters() {
+  searchGas() {
     console.log('changeFilters');
-    this.gasPriceApi.find({ }).subscribe((gasPrice) => {
+    const filter = {
+     where: {
+       localidad: 'NEUQUEN',
+       idempresabandera: this.company,
+       idproducto: this.gasType,
+     },
+    };
+    const loading = this.loadingCrtl.create({ content: 'Cargando...'});
+    this.gasPriceApi.find(filter).subscribe((gasPrice:GasPrice[]) => {
+      loading.dismissAll();
+
+      this.companys = gasPrice;
+      this.companys.forEach((comp) => {
+        comp.longitud = Number(comp.longitud);
+        comp.latitud= Number(comp.latitud);
+      });
       console.log(gasPrice);
     }, (e) => {
+      loading.dismissAll();
       console.error(e);
     });
   }

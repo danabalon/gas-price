@@ -5,16 +5,18 @@ export interface InvoicePictureInterface {
   "creationDate": Date;
   "s3Bucket": string;
   "s3Key": string;
+  "thumbnail": string;
   "id"?: any;
-  "carServiceId"?: any;
+  "maintenanceId"?: any;
 }
 
 export class InvoicePicture implements InvoicePictureInterface {
   "creationDate": Date;
   "s3Bucket": string;
   "s3Key": string;
+  "thumbnail": string;
   "id": any;
-  "carServiceId": any;
+  "maintenanceId": any;
   constructor(data?: InvoicePictureInterface) {
     Object.assign(this, data);
   }
@@ -60,12 +62,16 @@ export class InvoicePicture implements InvoicePictureInterface {
           name: 's3Key',
           type: 'string'
         },
+        "thumbnail": {
+          name: 'thumbnail',
+          type: 'string'
+        },
         "id": {
           name: 'id',
           type: 'any'
         },
-        "carServiceId": {
-          name: 'carServiceId',
+        "maintenanceId": {
+          name: 'maintenanceId',
           type: 'any'
         },
       },

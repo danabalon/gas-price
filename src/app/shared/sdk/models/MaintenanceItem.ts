@@ -1,36 +1,36 @@
 /* tslint:disable */
 
 declare var Object: any;
-export interface RiskInterface {
-  "name": string;
-  "description": string;
-  "imageUrl": string;
+export interface MaintenanceItemInterface {
+  "description"?: string;
+  "name"?: string;
   "id"?: any;
+  "maintenanceId"?: any;
 }
 
-export class Risk implements RiskInterface {
-  "name": string;
+export class MaintenanceItem implements MaintenanceItemInterface {
   "description": string;
-  "imageUrl": string;
+  "name": string;
   "id": any;
-  constructor(data?: RiskInterface) {
+  "maintenanceId": any;
+  constructor(data?: MaintenanceItemInterface) {
     Object.assign(this, data);
   }
   /**
    * The name of the model represented by this $resource,
-   * i.e. `Risk`.
+   * i.e. `MaintenanceItem`.
    */
   public static getModelName() {
-    return "Risk";
+    return "MaintenanceItem";
   }
   /**
   * @method factory
   * @author Jonathan Casarrubias
   * @license MIT
-  * This method creates an instance of Risk for dynamic purposes.
+  * This method creates an instance of MaintenanceItem for dynamic purposes.
   **/
-  public static factory(data: RiskInterface): Risk{
-    return new Risk(data);
+  public static factory(data: MaintenanceItemInterface): MaintenanceItem{
+    return new MaintenanceItem(data);
   }
   /**
   * @method getModelDefinition
@@ -41,25 +41,25 @@ export class Risk implements RiskInterface {
   **/
   public static getModelDefinition() {
     return {
-      name: 'Risk',
-      plural: 'Risks',
-      path: 'Risks',
+      name: 'MaintenanceItem',
+      plural: 'MaintenanceItems',
+      path: 'MaintenanceItems',
       idName: 'id',
       properties: {
-        "name": {
-          name: 'name',
-          type: 'string'
-        },
         "description": {
           name: 'description',
           type: 'string'
         },
-        "imageUrl": {
-          name: 'imageUrl',
+        "name": {
+          name: 'name',
           type: 'string'
         },
         "id": {
           name: 'id',
+          type: 'any'
+        },
+        "maintenanceId": {
+          name: 'maintenanceId',
           type: 'any'
         },
       },

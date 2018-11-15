@@ -51,7 +51,6 @@ import { RealTime } from './services/core/real.time';
 import { UserApi } from './services/custom/User';
 import { EmailApi } from './services/custom/Email';
 import { ApplicantApi } from './services/custom/Applicant';
-import { RiskApi } from './services/custom/Risk';
 import { EstimateRequestApi } from './services/custom/EstimateRequest';
 import { PaymentTypeApi } from './services/custom/PaymentType';
 import { PictureApi } from './services/custom/Picture';
@@ -71,10 +70,10 @@ import { InsuranceCompanyApi } from './services/custom/InsuranceCompany';
 import { ExpirableDocumentApi } from './services/custom/ExpirableDocument';
 import { DashboardLightApi } from './services/custom/DashboardLight';
 import { GasPriceApi } from './services/custom/GasPrice';
-import { CarServiceApi } from './services/custom/CarService';
+import { MaintenanceApi } from './services/custom/Maintenance';
+import { MaintenanceItemApi } from './services/custom/MaintenanceItem';
+import { MaintenanceItemPresetApi } from './services/custom/MaintenanceItemPreset';
 import { InvoicePictureApi } from './services/custom/InvoicePicture';
-import { OilChangeServiceApi } from './services/custom/OilChangeService';
-import { OtherServiceApi } from './services/custom/OtherService';
 /**
 * @module SDKBrowserModule
 * @description
@@ -108,7 +107,6 @@ export class SDKBrowserModule {
         UserApi,
         EmailApi,
         ApplicantApi,
-        RiskApi,
         EstimateRequestApi,
         PaymentTypeApi,
         PictureApi,
@@ -128,10 +126,10 @@ export class SDKBrowserModule {
         ExpirableDocumentApi,
         DashboardLightApi,
         GasPriceApi,
-        CarServiceApi,
+        MaintenanceApi,
+        MaintenanceItemApi,
+        MaintenanceItemPresetApi,
         InvoicePictureApi,
-        OilChangeServiceApi,
-        OtherServiceApi,
         internalStorageProvider,
         { provide: SDKStorage, useClass: StorageBrowser },
         { provide: SocketDriver, useClass: SocketBrowser }

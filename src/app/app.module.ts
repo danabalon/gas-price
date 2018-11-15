@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AgmCoreModule } from '@agm/core';
+import {SDKBrowserModule} from "./shared/sdk";
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AgmCoreModule } from '@agm/core';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    SDKBrowserModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBfcnq6oJTntuMX9VSkBZpOdkfUhfIk2zY',
       libraries: ["places"]

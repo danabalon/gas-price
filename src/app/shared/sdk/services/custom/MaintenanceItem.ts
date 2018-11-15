@@ -9,15 +9,15 @@ import { LoopBackFilter,  } from '../../models/BaseModels';
 import { ErrorHandler } from '../core/error.service';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Risk } from '../../models/Risk';
+import { MaintenanceItem } from '../../models/MaintenanceItem';
 import { SocketConnection } from '../../sockets/socket.connections';
 
 
 /**
- * Api services for the `Risk` model.
+ * Api services for the `MaintenanceItem` model.
  */
 @Injectable()
-export class RiskApi extends BaseLoopBackApi {
+export class MaintenanceItemApi extends BaseLoopBackApi {
 
   constructor(
     @Inject(HttpClient) protected http: HttpClient,
@@ -42,13 +42,13 @@ export class RiskApi extends BaseLoopBackApi {
    *
    * <em>
    * (The remote method definition does not provide any description.
-   * This usually means the response is a `Risk` object.)
+   * This usually means the response is a `MaintenanceItem` object.)
    * </em>
    */
   public patchOrCreate(data: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "PATCH";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Risks";
+    "/MaintenanceItems";
     let _routeParams: any = {};
     let _postBody: any = {
       data: data
@@ -61,7 +61,7 @@ export class RiskApi extends BaseLoopBackApi {
   /**
    * Patch attributes for a model instance and persist it into the data source.
    *
-   * @param {any} id Risk id
+   * @param {any} id MaintenanceItem id
    *
    * @param {object} data Request data.
    *
@@ -73,13 +73,13 @@ export class RiskApi extends BaseLoopBackApi {
    *
    * <em>
    * (The remote method definition does not provide any description.
-   * This usually means the response is a `Risk` object.)
+   * This usually means the response is a `MaintenanceItem` object.)
    * </em>
    */
   public patchAttributes(id: any, data: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "PATCH";
     let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/Risks/:id";
+    "/MaintenanceItems/:id";
     let _routeParams: any = {
       id: id
     };
@@ -93,9 +93,9 @@ export class RiskApi extends BaseLoopBackApi {
 
   /**
    * The name of the model represented by this $resource,
-   * i.e. `Risk`.
+   * i.e. `MaintenanceItem`.
    */
   public getModelName() {
-    return "Risk";
+    return "MaintenanceItem";
   }
 }

@@ -1,7 +1,4 @@
 /* tslint:disable */
-import {
-  Risk
-} from '../index';
 
 declare var Object: any;
 export interface CoverageInterface {
@@ -9,8 +6,11 @@ export interface CoverageInterface {
   "description": string;
   "code": string;
   "imageUrl": string;
+  "requiresPictures": boolean;
+  "requiresCertification": boolean;
   "id"?: any;
-  risks?: Risk[];
+  risks?: any[];
+  extras?: any[];
 }
 
 export class Coverage implements CoverageInterface {
@@ -18,8 +18,11 @@ export class Coverage implements CoverageInterface {
   "description": string;
   "code": string;
   "imageUrl": string;
+  "requiresPictures": boolean;
+  "requiresCertification": boolean;
   "id": any;
-  risks: Risk[];
+  risks: any[];
+  extras: any[];
   constructor(data?: CoverageInterface) {
     Object.assign(this, data);
   }
@@ -69,6 +72,14 @@ export class Coverage implements CoverageInterface {
           name: 'imageUrl',
           type: 'string'
         },
+        "requiresPictures": {
+          name: 'requiresPictures',
+          type: 'boolean'
+        },
+        "requiresCertification": {
+          name: 'requiresCertification',
+          type: 'boolean'
+        },
         "id": {
           name: 'id',
           type: 'any'
@@ -77,11 +88,21 @@ export class Coverage implements CoverageInterface {
       relations: {
         risks: {
           name: 'risks',
-          type: 'Risk[]',
-          model: 'Risk',
+          type: 'any[]',
+          model: '',
           relationType: 'hasMany',
           modelThrough: 'CoverageRisk',
           keyThrough: 'riskId',
+          keyFrom: 'id',
+          keyTo: 'coverageId'
+        },
+        extras: {
+          name: 'extras',
+          type: 'any[]',
+          model: '',
+          relationType: 'hasMany',
+          modelThrough: 'CoverageExtra',
+          keyThrough: 'extraId',
           keyFrom: 'id',
           keyTo: 'coverageId'
         },

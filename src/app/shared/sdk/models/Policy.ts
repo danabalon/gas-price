@@ -13,9 +13,10 @@ export interface PolicyInterface {
   "articleCode": string;
   "price": string;
   "completed": boolean;
-  "certificateUrl": string;
-  "clausesUrl": string;
-  "mercosurCardUrl": string;
+  "certificateUrl"?: string;
+  "clausesUrl"?: string;
+  "mercosurCardUrl"?: string;
+  "beingVerified"?: boolean;
   "id"?: any;
   "policyRequestId"?: any;
   "insuranceAgentId"?: any;
@@ -35,6 +36,7 @@ export class Policy implements PolicyInterface {
   "certificateUrl": string;
   "clausesUrl": string;
   "mercosurCardUrl": string;
+  "beingVerified": boolean;
   "id": any;
   "policyRequestId": any;
   "insuranceAgentId": any;
@@ -110,6 +112,10 @@ export class Policy implements PolicyInterface {
         "mercosurCardUrl": {
           name: 'mercosurCardUrl',
           type: 'string'
+        },
+        "beingVerified": {
+          name: 'beingVerified',
+          type: 'boolean'
         },
         "id": {
           name: 'id',

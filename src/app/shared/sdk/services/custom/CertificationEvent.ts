@@ -38,7 +38,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {boolean} refresh 
+   * @param {boolean} refresh
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -161,7 +161,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {boolean} refresh 
+   * @param {boolean} refresh
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -191,7 +191,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {boolean} refresh 
+   * @param {boolean} refresh
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -311,7 +311,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {boolean} refresh 
+   * @param {boolean} refresh
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -434,7 +434,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {boolean} refresh 
+   * @param {boolean} refresh
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -464,7 +464,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {boolean} refresh 
+   * @param {boolean} refresh
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -489,42 +489,13 @@ export class CertificationEventApi extends BaseLoopBackApi {
     return result;
   }
 
-  /**
-   * Fetches belongsTo relation certificate.
-   *
-   * @param {any} id CertificationEvent id
-   *
-   * @param {boolean} refresh 
-   *
-   * @returns {object} An empty reference that will be
-   *   populated with the actual data once the response is returned
-   *   from the server.
-   *
-   * <em>
-   * (The remote method definition does not provide any description.
-   * This usually means the response is a `CertificationEvent` object.)
-   * </em>
-   */
-  public getCertificate(id: any, refresh: any = {}, customHeaders?: Function): Observable<any> {
-    let _method: string = "GET";
-    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
-    "/CertificationEvents/:id/certificate";
-    let _routeParams: any = {
-      id: id
-    };
-    let _postBody: any = {};
-    let _urlParams: any = {};
-    if (typeof refresh !== 'undefined' && refresh !== null) _urlParams.refresh = refresh;
-    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
-    return result;
-  }
 
   /**
    * Queries pictureList of CertificationEvent.
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {object} filter 
+   * @param {object} filter
    *
    * @returns {object[]} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -619,7 +590,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * Data properties:
    *
-   *  - `count` – `{number}` - 
+   *  - `count` – `{number}` -
    */
   public countPictureList(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
@@ -640,7 +611,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {any} id CertificationEvent id
    *
-   * @param {object} filter 
+   * @param {object} filter
    *
    * @returns {object[]} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -735,7 +706,7 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * Data properties:
    *
-   *  - `count` – `{number}` - 
+   *  - `count` – `{number}` -
    */
   public countUCertifyData(id: any, where: any = {}, customHeaders?: Function): Observable<any> {
     let _method: string = "GET";
@@ -818,9 +789,9 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {object} data Request data.
    *
-   *  - `req` – `{object}` - 
+   *  - `req` – `{object}` -
    *
-   *  - `res` – `{object}` - 
+   *  - `res` – `{object}` -
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -847,9 +818,9 @@ export class CertificationEventApi extends BaseLoopBackApi {
    *
    * @param {object} data Request data.
    *
-   *  - `req` – `{object}` - 
+   *  - `req` – `{object}` -
    *
-   *  - `res` – `{object}` - 
+   *  - `res` – `{object}` -
    *
    * @returns {object} An empty reference that will be
    *   populated with the actual data once the response is returned
@@ -871,6 +842,34 @@ export class CertificationEventApi extends BaseLoopBackApi {
     return result;
   }
 
+  /**
+   * Uploads a file
+   *
+   * @param {string} id
+   *
+   * @param {object} options
+   *
+   * @returns {object} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CertificationEvent` object.)
+   * </em>
+   */
+  public getCertificate(id: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/CertificationEvents/:id/getCertificate/";
+    let _routeParams: any = {
+      id: id
+    };
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
 
   /**
    * Creates a new instance in certificationData of this model.

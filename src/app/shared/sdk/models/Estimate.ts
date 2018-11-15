@@ -12,7 +12,6 @@ export interface EstimateInterface {
   "id"?: any;
   "estimateRequestId"?: any;
   "coverageId"?: any;
-  additionals?: any[];
   estimateRequest?: EstimateRequest;
   paymentTypes?: PaymentType[];
   coverage?: Coverage;
@@ -24,7 +23,6 @@ export class Estimate implements EstimateInterface {
   "id": any;
   "estimateRequestId": any;
   "coverageId": any;
-  additionals: any[];
   estimateRequest: EstimateRequest;
   paymentTypes: PaymentType[];
   coverage: Coverage;
@@ -83,14 +81,6 @@ export class Estimate implements EstimateInterface {
         },
       },
       relations: {
-        additionals: {
-          name: 'additionals',
-          type: 'any[]',
-          model: '',
-          relationType: 'hasMany',
-                  keyFrom: 'id',
-          keyTo: 'estimateId'
-        },
         estimateRequest: {
           name: 'estimateRequest',
           type: 'EstimateRequest',

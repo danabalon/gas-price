@@ -6,14 +6,16 @@ export interface GasPriceInterface {
   "cuit": string;
   "empresa": string;
   "direccion": string;
+  "provincia": string;
   "localidad": string;
-  "region": string;
+  "region"?: string;
   "idproducto": string;
   "producto": string;
   "idtipohorario": string;
   "tipohorario": string;
   "precio": number;
   "fecha_vigencia": Date;
+  "idempresabandera": string;
   "empresabandera": string;
   "latitud": string;
   "longitud": string;
@@ -26,6 +28,7 @@ export class GasPrice implements GasPriceInterface {
   "cuit": string;
   "empresa": string;
   "direccion": string;
+  "provincia": string;
   "localidad": string;
   "region": string;
   "idproducto": string;
@@ -34,6 +37,7 @@ export class GasPrice implements GasPriceInterface {
   "tipohorario": string;
   "precio": number;
   "fecha_vigencia": Date;
+  "idempresabandera": string;
   "empresabandera": string;
   "latitud": string;
   "longitud": string;
@@ -88,6 +92,10 @@ export class GasPrice implements GasPriceInterface {
           name: 'direccion',
           type: 'string'
         },
+        "provincia": {
+          name: 'provincia',
+          type: 'string'
+        },
         "localidad": {
           name: 'localidad',
           type: 'string'
@@ -119,6 +127,10 @@ export class GasPrice implements GasPriceInterface {
         "fecha_vigencia": {
           name: 'fecha_vigencia',
           type: 'Date'
+        },
+        "idempresabandera": {
+          name: 'idempresabandera',
+          type: 'string'
         },
         "empresabandera": {
           name: 'empresabandera',
