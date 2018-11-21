@@ -17,16 +17,20 @@
       <!--[disableDoubleClickZoom]="true"  [clickableIcons]="false" [disableDefaultUI]="true" [scrollwheel]="false"  [zoomControl]="false" [gestureHandling]="'none'"-->
       <!--iconUrl-->
       <div *ngIf="companys">
-        <agm-map #maps [latitude]="lat" [longitude]="lng" (mapReady)="mapLoad($event)"
+        <!--(centerChange)="reloadGasPrice($event)"-->
+
+        <!--(idle)="reloadGasPrice()"-->
+
+        <agm-map #maps [latitude]="lat" [longitude]="lng" (idle)="reloadGasPrice()"
+                 (mapReady)="mapLoad($event)"
                  [draggable]="false" [zoom]="15" [streetViewControl]="false"
                  [styles]="styles"
-                 [maxZoom]="15" [minZoom]="10">
+                 [maxZoom]="15" [minZoom]="4">
           <div *ngFor="let comp of companys">
             <agm-marker [latitude]="comp.latitud" [longitude]="comp.longitud"
                         [label]="{color: 'black', text: '$' + comp.precio , fontWeight: 'bold', fontSize: '15px'}"
                         [title]="comp.empresa"
                         [iconUrl]="{url: (comp.idempresabandera === '2')? 'assets/imgs/YPF.png' : (comp.idempresabandera === '1') ? 'assets/imgs/shell.png' : (comp.idempresabandera === '3') ? 'assets/imgs/axion.jpeg' : (comp.idempresabandera === '4') ? 'assets/imgs/petrobras.png' : 'assets/imgs/logo.png', scaledSize: { height: 40, width: 40 }, labelOrigin: {x: 18, y: 40}}">
-
               <agm-info-window>
                 <p>
                   YPF Sucursal 4 <br>
@@ -79,18 +83,15 @@
       <ion-col col-6>
         <ion-item>
           <ion-label>Empresa</ion-label>
-          <ion-select [(ngModel)]="company" interface="popover" (ionChange)="searchGas()" end>
-            <ion-option value="2">YPF</ion-option>
-            <ion-option value="4">Petrobras</ion-option>
-            <ion-option value="3">Axxion</ion-option>
-            <ion-option value="1">shell</ion-option>
+          <ion-select  [(ngModel)]="company" interface="popover" (ionChange)="reloadGasPrice()" end>
+            <ion-option *ngFor="let brand of brands" value="{{brand}}">{{brand}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-col>
       <ion-col col-6>
         <ion-item >
           <ion-label>Combustible</ion-label>
-          <ion-select [(ngModel)]="gasType" interface="popover" (ionChange)="searchGas()">
+          <ion-select [(ngModel)]="gasType" interface="popover" (ionChange)="reloadGasPrice()">
             <ion-option value="2">Nafta Super</ion-option>
             <ion-option value="3">Nafta Premium</ion-option>
             <ion-option value="21">Euro Diesel (gr 3)</ion-option>

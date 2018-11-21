@@ -32,6 +32,7 @@ export class MaintenanceApi extends BaseLoopBackApi {
     super(http,  connection,  models, auth, errorHandler);
   }
 
+
   /**
    * Fetches belongsTo relation VehicleData.
    *

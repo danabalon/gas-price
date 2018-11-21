@@ -92,6 +92,73 @@ export class GasPriceApi extends BaseLoopBackApi {
   }
 
   /**
+   * Gets all gas prices near lat,long
+   *
+   * @param {object} filter 
+   *
+   * @param {number} lat 
+   *
+   * @param {number} long 
+   *
+   * @param {number} maxDistance 
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `GasPrice` object.)
+   * </em>
+   */
+  public getNear(filter: LoopBackFilter = {}, lat: any = {}, long: any = {}, maxDistance: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/GasPrices/getNear";
+    let _routeParams: any = {};
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof filter !== 'undefined' && filter !== null) _urlParams.filter = filter;
+    if (typeof lat !== 'undefined' && lat !== null) _urlParams.lat = lat;
+    if (typeof long !== 'undefined' && long !== null) _urlParams.long = long;
+    if (typeof maxDistance !== 'undefined' && maxDistance !== null) _urlParams.maxDistance = maxDistance;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
+   * Gets all brands near lat,long
+   *
+   * @param {number} lat 
+   *
+   * @param {number} long 
+   *
+   * @param {number} maxDistance 
+   *
+   * @returns {object[]} An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `GasPrice` object.)
+   * </em>
+   */
+  public getBrandsNear(lat: any = {}, long: any = {}, maxDistance: any = {}, customHeaders?: Function): Observable<any> {
+    let _method: string = "GET";
+    let _url: string = LoopBackConfig.getPath() + "/" + LoopBackConfig.getApiVersion() +
+    "/GasPrices/getBrandsNear";
+    let _routeParams: any = {};
+    let _postBody: any = {};
+    let _urlParams: any = {};
+    if (typeof lat !== 'undefined' && lat !== null) _urlParams.lat = lat;
+    if (typeof long !== 'undefined' && long !== null) _urlParams.long = long;
+    if (typeof maxDistance !== 'undefined' && maxDistance !== null) _urlParams.maxDistance = maxDistance;
+    let result = this.request(_method, _url, _routeParams, _urlParams, _postBody, null, customHeaders);
+    return result;
+  }
+
+  /**
    * The name of the model represented by this $resource,
    * i.e. `GasPrice`.
    */

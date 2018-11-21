@@ -20,6 +20,7 @@ export interface GasPriceInterface {
   "latitud": string;
   "longitud": string;
   "geojson": any;
+  "lastUpdated": Date;
   "id"?: any;
 }
 
@@ -42,6 +43,7 @@ export class GasPrice implements GasPriceInterface {
   "latitud": string;
   "longitud": string;
   "geojson": any;
+  "lastUpdated": Date;
   "id": any;
   constructor(data?: GasPriceInterface) {
     Object.assign(this, data);
@@ -147,6 +149,10 @@ export class GasPrice implements GasPriceInterface {
         "geojson": {
           name: 'geojson',
           type: 'any'
+        },
+        "lastUpdated": {
+          name: 'lastUpdated',
+          type: 'Date'
         },
         "id": {
           name: 'id',
