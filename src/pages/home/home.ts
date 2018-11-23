@@ -3,6 +3,9 @@ import {AlertController, LoadingController, NavController, Platform, Slides} fro
 import {GasPriceApi} from "../../app/shared/sdk/services/custom";
 import {GasPrice} from "../../app/shared/sdk/models";
 declare const google: any;
+import { Geolocation } from '@ionic-native/geolocation';
+import {timeout} from "rxjs/operators";
+
 
 @Component({
   selector: 'page-home',
@@ -34,7 +37,8 @@ export class HomePage {
   screenHeight;
 
 
-  constructor(private gasPriceApi: GasPriceApi,
+  constructor(private geolocation: Geolocation,
+              private gasPriceApi: GasPriceApi,
               private loadingCrtl:LoadingController,
               private platform: Platform,
               private alertCtrl: AlertController,
@@ -58,9 +62,13 @@ export class HomePage {
 
   getBrands() {
     const coords = this.maps.getCenter();
-    this.gasPriceApi.getBrandsNear(coords.lat(), coords.lng(), 10000).subscribe((brands) => {
+    // const loading = this.loadingCrtl.create({ content: 'Cargando empresas...'});
+    // loading.present();
+    this.gasPriceApi.getBrandsNear(coords.lat(), coords.lng(), 10000).pipe(timeout(15000)).subscribe((brands) => {
+      // loading.dismissAll();
       this.brands = brands;
     }, (error) => {
+      // loading.dismissAll();
       console.error(error);
       this.alertCtrl.create({
         title: 'Aviso',
@@ -76,26 +84,44 @@ export class HomePage {
     this.sliders.lockSwipes(true);
   }
 
-  // TODO iniciar mapa en ubicacion actual...
   searchGasInMyPosition() {
+    if (this.platform.is('cordova')) {
+      console.log('geolocalizanco');
+      const loading = this.loadingCrtl.create({ content: 'Calculando coordenadas...'});
+      loading.present();
+      this.geolocation.getCurrentPosition({ timeout: 20000}).then((resp) => {
+        loading.dismissAll();
+        this.lat = resp.coords.latitude;
+        this.lng = resp.coords.longitude;
+        this.getNearCompanys();
+      }).catch((err) => {
+        loading.dismissAll();
+        this.alertCtrl.create({
+          title: 'Aviso',
+          message: 'Problemas al intentar calcular sus coordenadas. Verifique su GPS por favor.',
+        });
+        console.error(err);
+      });
+    } else {
+      console.log('geoHardcodenado');
+      this.lat = -38.954933; // MALON
+      this.lng = -68.050773;
+      this.getNearCompanys();
+    }
+
+  }
+
+  getNearCompanys() {
     const filter = {
       where: {
         empresabandera: this.company,
         idproducto: this.gasType,
       },
     };
-    const loading = this.loadingCrtl.create({ content: 'Cargando...'});
-    if (this.platform.is('cordova')) { // TODO usar Geolocation...
-      console.log('geolocalizanco');
-      this.lat = -38.954933;
-      this.lng = -68.050773;
-    } else {
-      console.log('geoHardcodenado');
-      this.lat = -38.954933;
-      this.lng = -68.050773;
-    }
+    const loading = this.loadingCrtl.create({ content: 'Buscando estaciones de servicios...'});
+    loading.present();
     const metersPerPx = (156512/2) * Math.cos(this.lat * Math.PI / 180) / Math.pow(2, this.initialZoom);
-    this.gasPriceApi.getNear(filter, this.lat, this.lng, metersPerPx * this.screenHeight).subscribe((gasPrice: GasPrice[]) => {
+    this.gasPriceApi.getNear(filter, this.lat, this.lng, metersPerPx * this.screenHeight).pipe(timeout(20000)).subscribe((gasPrice: GasPrice[]) => {
       loading.dismissAll();
       this.companys = gasPrice;
     }, (e) => {
@@ -117,10 +143,11 @@ export class HomePage {
       },
     };
     const coords = this.maps.getCenter();
-    const loading = this.loadingCrtl.create({ content: 'Cargando...'});
+    const loading = this.loadingCrtl.create({ content: 'Cargando estaciones...'});
+    loading.present();
     const metersPerPx = (156512/2) * Math.cos(coords.lat() * Math.PI / 180) / Math.pow(2, this.maps.zoom);
     if(metersPerPx * this.screenHeight < this.maxRange) {
-      this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), metersPerPx * this.screenHeight).subscribe((gasPrice: GasPrice[]) => {
+      this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), metersPerPx * this.screenHeight).pipe(timeout(20000)).subscribe((gasPrice: GasPrice[]) => {
         loading.dismissAll();
         this.companys = gasPrice;
       }, (e) => {

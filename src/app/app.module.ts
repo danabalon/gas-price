@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AgmCoreModule } from '@agm/core';
 import {SDKBrowserModule} from "./shared/sdk";
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {SDKBrowserModule} from "./shared/sdk";
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
