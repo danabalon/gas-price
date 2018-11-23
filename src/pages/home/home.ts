@@ -64,7 +64,8 @@ export class HomePage {
     const coords = this.maps.getCenter();
     // const loading = this.loadingCrtl.create({ content: 'Cargando empresas...'});
     // loading.present();
-    this.gasPriceApi.getBrandsNear(coords.lat(), coords.lng(), 10000).pipe(timeout(15000)).subscribe((brands) => {
+    const metersPerPx = (156512/2) * Math.cos(coords.lat() * Math.PI / 180) / Math.pow(2, this.maps.zoom);
+    this.gasPriceApi.getBrandsNear(coords.lat(), coords.lng(), metersPerPx * this.screenHeight).pipe(timeout(15000)).subscribe((brands) => {
       // loading.dismissAll();
       this.brands = brands;
     }, (error) => {
@@ -116,6 +117,7 @@ export class HomePage {
       where: {
         empresabandera: this.company,
         idproducto: this.gasType,
+        tipohorario: 'Diurno',
       },
     };
     const loading = this.loadingCrtl.create({ content: 'Buscando estaciones de servicios...'});
@@ -140,6 +142,7 @@ export class HomePage {
       where: {
         empresabandera: this.company,
         idproducto: this.gasType,
+        tipohorario: 'Diurno',
       },
     };
     const coords = this.maps.getCenter();
@@ -150,6 +153,7 @@ export class HomePage {
       this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), metersPerPx * this.screenHeight).pipe(timeout(20000)).subscribe((gasPrice: GasPrice[]) => {
         loading.dismissAll();
         this.companys = gasPrice;
+        console.log(this.companys);
       }, (e) => {
         loading.dismissAll();
         this.alertCtrl.create({
