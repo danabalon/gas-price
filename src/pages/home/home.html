@@ -23,7 +23,7 @@
 
         <agm-map #maps [latitude]="lat" [longitude]="lng" (idle)="reloadGasPrice()"
                  (mapReady)="mapLoad($event)"
-                 [draggable]="false" [zoom]="15" [streetViewControl]="false"
+                 [draggable]="false" [zoom]="initialZoom" [streetViewControl]="false"
                  [styles]="styles"
                  [maxZoom]="15" [minZoom]="4">
           <div *ngFor="let comp of companys">

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {LoadingController, NavController, Slides} from 'ionic-angular';
+import {AlertController, LoadingController, NavController, Platform, Slides} from 'ionic-angular';
 import {GasPriceApi} from "../../app/shared/sdk/services/custom";
 import {GasPrice} from "../../app/shared/sdk/models";
 declare const google: any;
@@ -10,50 +10,63 @@ declare const google: any;
 })
 export class HomePage {
 
-  title: string = 'My first AGM project';
-  lat: number = -38.954933;
-  lng: number = -68.050773;
-  icon = { url: 'assets/images/favicon.ico', scaledSize: { height: 40, width: 20 }};
-  gasType = "2";
-  company = "YPF";
+  @ViewChild('sliders') sliders: Slides;
+  lat: number;
+  lng: number;
+  gasType:string = "2";
+  company:string = "YPF";
+  companys:GasPrice[];
 
+  index:number = 1;
+  initialRange:number = 1128.49; // 20
+  initialZoom:number = 15;
+  maxRange:number = 20000;
+
+  maps;
+  brands=[];
+  // icon = { url: 'assets/images/favicon.ico', scaledSize: { height: 40, width: 20 }};
   styles: any[] = [
     // {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
     // {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
     // {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
   ];
-  companys:GasPrice[];
-  index=1;
-  @ViewChild('sliders') sliders: Slides;
-  maps;
-  brands=[];
+  screenWidth;
+  screenHeight;
+
 
   constructor(private gasPriceApi: GasPriceApi,
               private loadingCrtl:LoadingController,
+              private platform: Platform,
+              private alertCtrl: AlertController,
               public navCtrl: NavController) {
 
+    platform.ready().then((readySource) => {
+      this.screenWidth = platform.width();
+      this.screenHeight = platform.height();
+      this.searchGasInMyPosition();
+    });
   }
 
   ionViewDidLoad() {
     this.sliders.lockSwipes(true);
-    this.searchGasInMyPosition();
+  }
+
+  mapLoad(event) {
+    this.maps = event;
+    this.getBrands();
   }
 
   getBrands() {
     const coords = this.maps.getCenter();
     this.gasPriceApi.getBrandsNear(coords.lat(), coords.lng(), 10000).subscribe((brands) => {
       this.brands = brands;
-      console.log(this.brands);
     }, (error) => {
       console.error(error);
-      // TODO ALERt
+      this.alertCtrl.create({
+        title: 'Aviso',
+        message: 'Problemas para intentar obtener las estaciones de servicio.'
+      });
     });
-  }
-
-  mapLoad(event) {
-    this.maps = event;
-    console.log(this.maps);
-    this.getBrands();
   }
 
   changeSlide() {
@@ -63,56 +76,37 @@ export class HomePage {
     this.sliders.lockSwipes(true);
   }
 
+  // TODO iniciar mapa en ubicacion actual...
   searchGasInMyPosition() {
-    console.log('changeFilters');
     const filter = {
       where: {
-        localidad: 'NEUQUEN',
-        idempresabandera: this.company,
+        empresabandera: this.company,
         idproducto: this.gasType,
       },
     };
     const loading = this.loadingCrtl.create({ content: 'Cargando...'});
-    this.gasPriceApi.find(filter).subscribe((gasPrice: GasPrice[]) => {
+    if (this.platform.is('cordova')) { // TODO usar Geolocation...
+      console.log('geolocalizanco');
+      this.lat = -38.954933;
+      this.lng = -68.050773;
+    } else {
+      console.log('geoHardcodenado');
+      this.lat = -38.954933;
+      this.lng = -68.050773;
+    }
+    const metersPerPx = (156512/2) * Math.cos(this.lat * Math.PI / 180) / Math.pow(2, this.initialZoom);
+    this.gasPriceApi.getNear(filter, this.lat, this.lng, metersPerPx * this.screenHeight).subscribe((gasPrice: GasPrice[]) => {
       loading.dismissAll();
       this.companys = gasPrice;
-      this.companys.forEach((comp) => {
-        console.log(comp.latitud, comp.longitud);
-      });
     }, (e) => {
       loading.dismissAll();
       console.error(e);
+      this.alertCtrl.create({
+        title: 'Aviso',
+        message: 'Problemas para intentar obtener las estaciones de servicio.',
+      });
     });
   }
-
-  // searchGas2() {
-  //   console.log('changeFilters');
-  //   const filter = {
-  //    where: {
-  //      localidad: 'NEUQUEN',
-  //      idempresabandera: this.company,
-  //      idproducto: this.gasType,
-  //    },
-  //   };
-  //   const loading = this.loadingCrtl.create({ content: 'Cargando...'});
-  //   this.gasPriceApi.find(filter).subscribe((gasPrice: GasPrice[]) => {
-  //     loading.dismissAll();
-  //     this.companys = gasPrice;
-  //     this.companys.forEach((comp) => {
-  //       console.log(comp.longitud);
-  //       console.log(comp.latitud);
-  //     });
-  //     console.log(gasPrice);
-  //   }, (e) => {
-  //     loading.dismissAll();
-  //     console.error(e);
-  //   });
-  // }
-
-  // TODO detectar evento de arrastre hasta soltar el mapa
-  // TODO obtener el tamaño a pasar al endpoint de max
-  // TODO No limitar scroll
-  // TODO crear un tope minimo para consultar (mostrar mensaje de distancia maxima)
 
   reloadGasPrice() {
     this.getBrands();
@@ -123,19 +117,22 @@ export class HomePage {
       },
     };
     const coords = this.maps.getCenter();
-    console.log(coords.lat(), coords.lng());
     const loading = this.loadingCrtl.create({ content: 'Cargando...'});
-    this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), 10000).subscribe((gasPrice: GasPrice[]) => {
-      loading.dismissAll();
-      console.log(gasPrice);
-      this.companys = gasPrice;
-      this.companys.forEach((comp) => {
-        console.log(comp.longitud, comp.latitud);
+    const metersPerPx = (156512/2) * Math.cos(coords.lat() * Math.PI / 180) / Math.pow(2, this.maps.zoom);
+    if(metersPerPx * this.screenHeight < this.maxRange) {
+      this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), metersPerPx * this.screenHeight).subscribe((gasPrice: GasPrice[]) => {
+        loading.dismissAll();
+        this.companys = gasPrice;
+      }, (e) => {
+        loading.dismissAll();
+        this.alertCtrl.create({
+          title: 'Aviso',
+          message: 'Problemas para intentar obtener las estaciones de servicio.',
+        });
+        console.error(e);
       });
-    }, (e) => {
-      loading.dismissAll();
-      console.error(e);
-    });
+    }
+
 
   }
 
