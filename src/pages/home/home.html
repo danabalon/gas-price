@@ -7,6 +7,8 @@
 </ion-header>
 
 <ion-content padding>
+  <div *ngIf="showing" class="loading-item"><span>Cargando</span><ion-spinner class="spinner-energized"></ion-spinner></div>
+
   <ion-fab top right class="type-view-fab">
     <button ion-fab (click)="changeSlide()" class="type-view-btn">
       <ion-icon name="pin"></ion-icon> |  <ion-icon name="list"></ion-icon>
@@ -21,7 +23,7 @@
 
         <!--(idle)="reloadGasPrice()"-->
 
-        <agm-map #maps [latitude]="lat" [longitude]="lng" (idle)="reloadGasPrice()"
+        <agm-map #maps [latitude]="lat" [longitude]="lng" (idle)="reloadGasPrice()" (boundsChange)="cancelReloadGasPrice()"
                  (mapReady)="mapLoad($event)"
                  [draggable]="false" [zoom]="initialZoom" [streetViewControl]="false"
                  [styles]="styles"
@@ -30,11 +32,11 @@
             <agm-marker [latitude]="comp.latitud" [longitude]="comp.longitud"
                         [label]="{color: 'black', text: '$' + comp.precio , fontWeight: 'bold', fontSize: '15px'}"
                         [title]="comp.empresa"
-                        [iconUrl]="{url: (comp.idempresabandera === '2')? 'assets/imgs/YPF.png' : (comp.idempresabandera === '1') ? 'assets/imgs/shell.png' : (comp.idempresabandera === '3') ? 'assets/imgs/axion.jpeg' : (comp.idempresabandera === '4') ? 'assets/imgs/petrobras.png' : 'assets/imgs/logo.png', scaledSize: { height: 40, width: 40 }, labelOrigin: {x: 18, y: 40}}">
+                        [iconUrl]="{url: (comp.empresabandera === 'YPF')? 'assets/companys/YPF.png' : (comp.empresabandera === 'SHELL C.A.P.S.A.') ? 'assets/companys/shell.png' : (comp.empresabandera === 'AXION') ? 'assets/companys/axion.jpeg' : (comp.empresabandera === 'PETROBRAS') ? 'assets/companys/petrobras.png' : (comp.empresabandera === 'ASPRO') ? 'assets/companys/Aspro.png' : (comp.empresabandera === 'ESSO PETROLERA ARGENTINA S.R.L') ? 'assets/companys/Esso.png' : (comp.empresabandera === 'OIL COMBUSTIBLES S.A.') ? 'assets/companys/OIL.png' : (comp.empresabandera === 'REFINOR') ? 'assets/companys/Refinor.jpg' : 'assets/companys/logo.png', scaledSize: { height: 40, width: 40 }, labelOrigin: {x: 18, y: 40}}">
               <agm-info-window>
                 <p>
-                  YPF Sucursal 4 <br>
-                  Av. Aca mismo 666
+                  {{comp.empresa}} <br>
+                  {{comp.direccion}}
                 </p>
                 <a>link</a>
               </agm-info-window>
@@ -45,30 +47,31 @@
 
     </ion-slide>
     <ion-slide>
-
-      <ion-list class="fullwidth" >
-        <ion-item-sliding>
-          <ion-item >
-            <ion-row>
-              <ion-col col-3 text-center >
-                <img  text-center src="assets/imgs/YPF.png">
-              </ion-col>
-              <ion-col col-6>
-                 <p>
-                   <ion-icon name="cash"></ion-icon> Nafta premium $37,80
-                </p>
-                <p>
-                  <ion-icon name="pin"></ion-icon> Ecuador 1341, Neuquen
-                </p>
-              </ion-col>
-            </ion-row>
-            <ion-icon name="ios-arrow-forward" item-right ></ion-icon>
-          </ion-item>
-          <ion-item-options side="left">
-            <button ion-button color="positive"></button>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
+      <div *ngIf="companys">
+        <ion-list class="fullwidth" >
+          <ion-item-sliding *ngFor="let comp of companys">
+            <ion-item >
+              <ion-row>
+                <ion-col col-3 text-center >
+                  <img  text-center src="{{(comp.empresabandera === 'YPF')? 'assets/companys/YPF.png' : (comp.empresabandera === 'SHELL C.A.P.S.A.') ? 'assets/companys/shell.png' : (comp.empresabandera === 'AXION') ? 'assets/companys/axion.jpeg' : (comp.empresabandera === 'PETROBRAS') ? 'assets/companys/petrobras.png' : (comp.empresabandera === 'ASPRO') ? 'assets/companys/Aspro.png' : (comp.empresabandera === 'ESSO PETROLERA ARGENTINA S.R.L') ? 'assets/companys/Esso.png' : (comp.empresabandera === 'OIL COMBUSTIBLES S.A.') ? 'assets/companys/OIL.png' : (comp.empresabandera === 'REFINOR') ? 'assets/companys/Refinor.jpg' : 'assets/companys/logo.png' }}">
+                </ion-col>
+                <ion-col col-6>
+                   <p>
+                     <ion-icon name="cash"></ion-icon> {{(comp.idproducto === '2') ? 'Nafta Super' : (comp.idproducto === '3') ? 'Nafta Premium' : (comp.idproducto === '21') ? 'Euro Diesel' : (comp.idproducto === '19') ? 'Diesel 500' : 'GNC' }} ${{comp.precio}}
+                  </p>
+                  <p>
+                    <ion-icon name="pin"></ion-icon> {{comp.direccion}}, {{comp.localidad}}
+                  </p>
+                </ion-col>
+              </ion-row>
+              <ion-icon name="ios-arrow-forward" item-right ></ion-icon>
+            </ion-item>
+            <ion-item-options side="left">
+              <button ion-button color="positive"></button>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </div>
     </ion-slide>
   </ion-slides>
 

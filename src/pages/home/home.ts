@@ -35,6 +35,8 @@ export class HomePage {
   ];
   screenWidth;
   screenHeight;
+  timeout;
+  showing = false;
 
 
   constructor(private geolocation: Geolocation,
@@ -109,8 +111,9 @@ export class HomePage {
       this.lng = -68.050773;
       this.getNearCompanys();
     }
-
   }
+
+
 
   getNearCompanys() {
     const filter = {
@@ -137,34 +140,36 @@ export class HomePage {
   }
 
   reloadGasPrice() {
-    this.getBrands();
-    const filter = {
-      where: {
-        empresabandera: this.company,
-        idproducto: this.gasType,
-        tipohorario: 'Diurno',
-      },
-    };
-    const coords = this.maps.getCenter();
-    const loading = this.loadingCrtl.create({ content: 'Cargando estaciones...'});
-    loading.present();
-    const metersPerPx = (156512/2) * Math.cos(coords.lat() * Math.PI / 180) / Math.pow(2, this.maps.zoom);
-    if(metersPerPx * this.screenHeight < this.maxRange) {
-      this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), metersPerPx * this.screenHeight).pipe(timeout(20000)).subscribe((gasPrice: GasPrice[]) => {
-        loading.dismissAll();
-        this.companys = gasPrice;
-        console.log(this.companys);
-      }, (e) => {
-        loading.dismissAll();
-        this.alertCtrl.create({
-          title: 'Aviso',
-          message: 'Problemas para intentar obtener las estaciones de servicio.',
+    this.showing = true;
+    this.timeout = setTimeout(() => {
+      this.showing = false;
+      this.getBrands();
+      const filter = {
+        where: {
+          empresabandera: this.company,
+          idproducto: this.gasType,
+          tipohorario: 'Diurno',
+        },
+      };
+      const coords = this.maps.getCenter();
+      const metersPerPx = (156512/2) * Math.cos(coords.lat() * Math.PI / 180) / Math.pow(2, this.maps.zoom);
+      if(metersPerPx * this.screenHeight < this.maxRange) {
+        this.gasPriceApi.getNear(filter, coords.lat(), coords.lng(), metersPerPx * this.screenHeight).pipe(timeout(20000)).subscribe((gasPrice: GasPrice[]) => {
+          this.companys = gasPrice;
+          console.log(this.companys);
+        }, (e) => {
+          this.alertCtrl.create({
+            title: 'Aviso',
+            message: 'Problemas para intentar obtener las estaciones de servicio.',
+          });
+          console.error(e);
         });
-        console.error(e);
-      });
-    }
+      }
+    },500);
+  }
 
-
+  cancelReloadGasPrice() {
+    clearTimeout(this.timeout);
   }
 
 
